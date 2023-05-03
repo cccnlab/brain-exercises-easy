@@ -40,7 +40,7 @@ let trialNumber;
 let currSpan = initialSpan;
 let currTrial: number = 0;
 let allSpan: number[] = [];
-let spanSizeAndDirection: number[][] = [];
+let spanSizeAndDirection: number[] = [];
 let spanInCorrectAns: any[] = [];
 let allSeq: string[] = [];
 let genSeq: number[] = [];
@@ -166,7 +166,7 @@ function SSGame(props) {
           )
       }
 
-      if (currAns.length === spanSizeAndDirection[currTrial][0]) {
+      if (currAns.length === spanSizeAndDirection[currTrial]) {
           cueData(currSeq, cueColor, cueBorderColor, cueStartTime, cueEndTime);
           probeData(probeNumber, allProbe, restColor, restBorderColor, probeShape, probeParams, radius, probeAngularPosition);
           answerData(currAns, answerTimePerTrial);
@@ -183,10 +183,6 @@ function SSGame(props) {
           
           const equalCheck = (currAns: any[], currSeq: string | any[]) => 
               currAns.length === currSeq.length && currAns.every((value, index) => value === currSeq[index]);
-              
-          if (spanSizeAndDirection[currTrial][1] === 1){
-              currAns.reverse();
-          } 
 
           if (equalCheck(currAns, currSeq)) {
               $('#goSignal').html("ถูก");
@@ -350,13 +346,13 @@ function SSGame(props) {
   function createPseudorandomStimuli() {
     let allSpanSizeRange = [2, 3, 4, 5, 6, 7, 8];
     let trialsPerSpanSize = 8; 
-    let sequenceDirection = 2; // forward and backward
+    let sequenceDirection = 1; // forward only
     let trialsPerDirection = trialsPerSpanSize / sequenceDirection; 
 
     for (let iSpanSize = 0; iSpanSize < allSpanSizeRange.length; iSpanSize++) {
         for (let iRep = 0; iRep < trialsPerDirection; iRep++) {
             for (let iDirection = 0; iDirection < sequenceDirection; iDirection++) {
-                spanSizeAndDirection.push([allSpanSizeRange[iSpanSize],iDirection])
+                spanSizeAndDirection.push(allSpanSizeRange[iSpanSize])
             }
         }
     }
@@ -366,19 +362,13 @@ function SSGame(props) {
 
   function seqGenerator() {
       if (currTrial !== trialNumber) {
-          allSpan.push(spanSizeAndDirection[currTrial][0]);
+          allSpan.push(spanSizeAndDirection[currTrial]);
           if (genSeq.length === 0) {
-              for (let i = 0; i < spanSizeAndDirection[currTrial][0]; i++) {
+              for (let i = 0; i < spanSizeAndDirection[currTrial]; i++) {
                   let thisSeq = Math.floor(Math.random() * probeNumber) + 1;
                   genSeq.push(thisSeq);
               }
           }
-
-          if (spanSizeAndDirection[currTrial][1] === 0){
-            directionMode.push('forward');
-        } else {
-            directionMode.push('backward');
-        }
 
           timeIntervalPerTrial();
       } 
@@ -411,11 +401,7 @@ function SSGame(props) {
     timeoutList.push(
         setTimeout(function() {
             $('#goSignal').html("");
-            if (spanSizeAndDirection[currTrial][1] === 0){
-                $('#goSignal').html("ตามลำดับ");
-            } else {
-                $('#goSignal').html("ย้อนกลับ");
-            }
+            $('#goSignal').html("ตามลำดับ");
         }, 3100) 
     )
 
@@ -435,16 +421,16 @@ function SSGame(props) {
       
       timeoutList.push(
           setTimeout(function () {
-                $('#goSignal').html("");
+              $('#goSignal').html("");
               $('#goSignal').html("ตาคุณ");
               startTime = timeStart();
               $('.cirButton').removeClass('hoverDisabled');
               $('.cirButton').addClass('readyToClick');
               isTest = true;
-          }, spanSizeAndDirection[currTrial][0] * ((popTime/5) + (intervalTime))) 
+          }, spanSizeAndDirection[currTrial] * ((popTime/5) + (intervalTime))) 
       )
   
-      for (let i = 0; i < spanSizeAndDirection[currTrial][0]; i++) {
+      for (let i = 0; i < spanSizeAndDirection[currTrial]; i++) {
           if (genSeq[i] === 1) {
               timeoutList.push(
                   setTimeout(function () {
@@ -634,16 +620,16 @@ function SSGame(props) {
       return answerDataResult;
   }
 
-  function trialData(spanSizeAndDirection: number[][], cueDataResult: any[], probeDataResult: any[], answerDataResult: any[], directionMode: string[]){
+  function trialData(spanSizeAndDirection: number[], cueDataResult: any[], probeDataResult: any[], answerDataResult: any[], directionMode: string[]){
       
       for (let i = 0; i < trialNumber; i++) {
           let obj_to_append;
           obj_to_append = {
-              "spanSize" : spanSizeAndDirection[i][0],
+              "spanSize" : spanSizeAndDirection[i],
               "cueData" : cueDataResult[i],
               "probeData" : probeDataResult[i],
               "answerData" : answerDataResult[i],
-              "mode" : directionMode[i]
+              "mode" : 'forward'
           }
           trialDataResult.push(obj_to_append);
       }
