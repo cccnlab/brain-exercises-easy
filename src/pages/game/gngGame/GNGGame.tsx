@@ -56,7 +56,7 @@ let noGoInGoNoGo = Math.round(goNoGoBlock * changeRate * noGoRate);
 let goInGoNoGo = Math.round(goNoGoBlock * changeRate * (1 - noGoRate));
 let noChangeInGoNoGo = goNoGoBlock - goInGoNoGo - noGoInGoNoGo;
 let tempEventGoNoGo: any[] = [];
-for (let i2 = 0; i2 < noGoInGoNoGo; i2++) { tempEventGoNoGo.push(2)};
+for (let i2 = 0; i2 < noGoInGoNoGo; i2++) { tempEventGoNoGo.push(1)};
 for (let i1 = 0; i1 < goInGoNoGo; i1++) { tempEventGoNoGo.push(1)};
 for (let i0 = 0; i0 < (noChangeInGoNoGo - 1); i0++) { tempEventGoNoGo.push(0)}; // white will be in the first and last ones to make sure that the RTs will be recorded.
 Shuffle(tempEventGo);
@@ -168,22 +168,22 @@ function GNGGame(props) {
                     "description" : "Total number of none signal"
                 },
                 "changeRate" : {
-                    "value": changeRate,
+                    "value": null,
                     "unit": null,
                     "description": "Rate of change between go and nogo block"
                 },
                 "nogoRate" : {
-                    "value": noGoRate,
+                    "value": null,
                     "unit": null,
                     "description": "Rate of no go signal"
                 },
                 "onlyGoBlockRatio": {
-                    "value": onlyGoBlockRatio,
+                    "value": null,
                     "unit" : null,
                     "description" : "Ratio of only go block section"
                 },
                 "goNoGoBlockRatio": {
-                    "value": goNoGoBlockRatio,
+                    "value": null,
                     "unit" : null,
                     "description" : "Ratio of go-nogo block section"
                 },
@@ -375,10 +375,10 @@ function GNGGame(props) {
                missCount, 
                correctRejectionCount, 
                falseAlarmCount, 
-               falseSignalRejectionCount, 
-               falseHitCount,
+               null, 
+               null,
                (hitCount / allGo) * 100,
-               (falseSignalRejectionCount / allNoGo) * 100, 
+               null, 
                hitRt[0], 
                avgHitRt];
         let metricUnit = [null, null, null, null, null, null, null, null, '%', '%', 'ms', 's'];
