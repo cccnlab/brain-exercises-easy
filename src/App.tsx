@@ -26,9 +26,11 @@ function App() {
     window.addEventListener('resize', documentHeightWidth);
     window.addEventListener('orientationchange', documentHeightWidth);
 
-    let userId = getDataFromLocalStorage('user');
-    if (userId !== null){
-      setUserPhone(userId);
+    let id = getDataFromLocalStorage('userId');
+    let phone = getDataFromLocalStorage('userPhone');
+    if (id !== null && phone !== null){
+      setUserId(id);
+      setUserPhone(phone);
       // window.location.replace(window.location.origin + "#/landing");
     } else {
       if (window.location.href === window.location.origin +"/"){
@@ -52,6 +54,7 @@ function App() {
     document.documentElement.style.setProperty('--this-sum', calSum + 'px');
     document.documentElement.style.setProperty('--vh', vh + 'px');
   }
+  const [userId, setUserId] = useState("XXXX");
   const [userPhone, setUserPhone] = useState("XXXX");
   return (
     <>
@@ -61,13 +64,13 @@ function App() {
             <Route path="/landing" element={< LandingPage />}></Route>
             <Route path="/spatial-span" element={<SSLanding />}></Route>
             <Route path="/spatial-span/instruction" element={<SSInstruction />}></Route>
-            <Route path="/spatial-span/trial" element={<SSGame userPhone={userPhone}/>}></Route>
+            <Route path="/spatial-span/trial" element={<SSGame userId={userId} userPhone={userPhone}/>}></Route>
             <Route path="/conjunction-search" element={<CJSLanding />}></Route>
             <Route path="/conjunction-search/instruction" element={<CJSInstruction />}></Route>
-            <Route path="/conjunction-search/trial" element={<CJSGame userPhone={userPhone}/>}></Route>
+            <Route path="/conjunction-search/trial" element={<CJSGame userId={userId} userPhone={userPhone}/>}></Route>
             <Route path="/go-nogo" element={<GNGLanding />}></Route>
             <Route path="/go-nogo/instruction" element={<GNGInstruction />}></Route>
-            <Route path="/go-nogo/trial" element={<GNGGame userPhone={userPhone}/>}></Route>
+            <Route path="/go-nogo/trial" element={<GNGGame userId={userId} userPhone={userPhone}/>}></Route>
           </Routes>
           <LoadingSpinner />
       </Router>

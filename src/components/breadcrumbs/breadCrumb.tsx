@@ -1,17 +1,20 @@
 import { HomeIcon } from '@heroicons/react/20/solid'
+import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './breadCrumb.css'
+import { getDataFromLocalStorage } from '../../uitls/offline';
 
-export default function Example() {
+export default function BreadCrumb() {
   const [headerText, setHeaderText] = useState('');
-  const [homeButtonLink, setHomeButtonLink] = useState('');
   const [gameButtonLink, setGameButtonLink] = useState('#/landing');
   const [disableHomeButton, setDisableHomeButton] = useState('');
   const [disableGameButton, setDisableGameButton] = useState('');
+  const [hideUserId, setHideUserId] = useState(false);
   const location = useLocation();
   const pathName = location.pathname;
-
+  
+  let id = getDataFromLocalStorage('userId');
   let SSHeaderText = 'จำจด กดตาม';
   let CJSHeaderText = 'หากันจนเจอ';
   let GNGHeaderText = 'เขียวไป แดงหยุด';
@@ -22,18 +25,18 @@ export default function Example() {
   useEffect(() => {
     if (pathName === '/landing') {
       setHeaderText('หน้าเลือกเกม');
-    } else if (pathName.includes('/spatial-span')) {
-      setHeaderText(SSHeaderText);
-      setHomeButtonLink('#/landing');
-      setGameButtonLink('#/spatial-span');
-    } else if (pathName.includes('/conjunction-search')) {
-      setHeaderText(CJSHeaderText);
-      setHomeButtonLink('#/landing');
-      setGameButtonLink('#/conjunction-search');
-    } else if (pathName.includes('/go-nogo')) {
-      setHeaderText(GNGHeaderText);
-      setHomeButtonLink('#/landing');
-      setGameButtonLink('#/go-nogo');
+    } else {
+      setHideUserId(true);
+      if (pathName.includes('/spatial-span')) {
+        setHeaderText(SSHeaderText);
+        setGameButtonLink('#/spatial-span');
+      } else if (pathName.includes('/conjunction-search')) {
+        setHeaderText(CJSHeaderText);
+        setGameButtonLink('#/conjunction-search');
+      } else if (pathName.includes('/go-nogo')) {
+        setHeaderText(GNGHeaderText);
+        setGameButtonLink('#/go-nogo');
+      }
     }
 
     if (pathName.includes('/instruction') || pathName.includes('/trial')) {
@@ -43,11 +46,11 @@ export default function Example() {
   }, [])
   
   return (
-    <nav className="flex h-fit" aria-label="Breadcrumb">
+    <nav className="flex h-fit justify-between" aria-label="Breadcrumb">
       <ol role="list" className="flex items-center space-x-4">
         <li>
           <div>
-            <a href={homeButtonLink} className={`text-gray-400 hover:text-gray-500 + ${disableHomeButton}`}>
+            <a href={'#/landing'} className={`text-gray-400 hover:text-gray-500 + ${disableHomeButton}`}>
               <HomeIcon className="h-5 w-5 sm:h-8 sm:w-8 flex-shrink-0" aria-hidden="true" />
               <span className="sr-only">Home</span>
             </a>
@@ -66,7 +69,7 @@ export default function Example() {
               </svg>
               <a
                 href={page.href}
-                className={`ml-4 text-sm sm:text-lg font-medium sm:font-medium text-gray-500 hover:text-gray-700 + ${disableGameButton}`}
+                className={`ml-4 text-sm sm:text-lg font-medium sm:font-medium text-gray-500 + ${disableGameButton}`}
                 aria-current={page.current ? 'page' : undefined}
               >
                 {page.name}
@@ -75,6 +78,24 @@ export default function Example() {
           </li>
         ))}
       </ol>
+      {hideUserId ? null : 
+        <ol role="list" className="flex items-center space-x-4">
+          <li>
+            <a
+              className={`ml-4 text-sm sm:text-lg font-medium sm:font-medium text-gray-500 + ${disableGameButton}`}
+            >
+              {`ผู้ใช้ : ` + id}
+            </a>
+          </li>
+          <li>
+            <div>
+              <a href={''} className={`text-gray-400 hover:text-gray-500 + ${disableHomeButton}`}>
+              <ArrowRightOnRectangleIcon className="h-6 w-6 text-gray-500" />
+              </a>
+            </div>
+          </li>
+        </ol>
+      }
     </nav>
   )
 }

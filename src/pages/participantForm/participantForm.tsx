@@ -15,20 +15,38 @@ export default function ParticipantForm(props:{
     setUserPhone: (phone:string)=>void
 }) {
     const navigate = useNavigate();
-    
-    const [promptUserPhone, setPromptUserPhone] = useState("XXXX")
+    const [promptUserId, setPromptUserId] = useState("XXXX");
+    const [promptUserPhone, setPromptUserPhone] = useState("XXXX");
 
     return (
       <div className="h-screen">
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
             <h2 className="mt-10 text-center text-xl font-bold leading-9 tracking-tight text-gray-900">
-              กรุณากรอกหมายเลขโทรศัพท์ 4 ตัวท้ายของท่าน
+              กรุณากรอกข้อมูล
             </h2>
           </div>
   
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form className="space-y-6">
+            <form className="space-y-6" >
+              <div>
+                <label htmlFor="userId" className="block text-sm font-medium leading-6 text-gray-900">
+                  หมายเลขผู้เข้าร่วมงานวิจัย (subject id)
+                </label>
+                <div className="mt-2">
+                  <input onChange={
+                    (e) => {setPromptUserId(e.target.value);}
+                  }
+                    id="userId"
+                    name="userId"
+                    type="tel"
+                    autoComplete="userId"
+                    required
+                    className="block w-full px-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+
               <div>
                 <label htmlFor="tel" className="block text-sm font-medium leading-6 text-gray-900">
                   หมายเลขโทรศัพท์ 4 ตัวท้าย (last 4 digits of your phone number)
@@ -49,14 +67,20 @@ export default function ParticipantForm(props:{
   
               <div>
                 <button onClick={()=>{
-                  if (!inputIsAllNumeric(promptUserPhone)) {
-                    alert("กรุณากรอกเฉพาะตัวเลขเท่านั้น");}
-                  else if (!lengthIsinRange(promptUserPhone)) {
-                    alert("กรุณากรอก 4 ตัวเท่านั้น");}
-                  else {
-                    props.setUserPhone(promptUserPhone);
-                    navigate("/landing");
-                    saveDataToLocalStorage('user', promptUserPhone);
+                  if (promptUserId === 'XXXX' || promptUserPhone === 'XXXX'){
+                    alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+                  } else {
+                    if (!inputIsAllNumeric(promptUserId) || !inputIsAllNumeric(promptUserPhone)) {
+                      alert("กรุณากรอกเฉพาะตัวเลขเท่านั้น");
+                    } else if (!lengthIsinRange(promptUserId) || !lengthIsinRange(promptUserPhone)) {
+                      alert("กรุณากรอกเลข 4 หลักเท่านั้น");
+                    } else {
+                      props.setUserPhone(promptUserId);
+                      props.setUserPhone(promptUserPhone);
+                      navigate("/landing");
+                      saveDataToLocalStorage('userId', promptUserId);
+                      saveDataToLocalStorage('userPhone', promptUserPhone);
+                    }
                   }
                 }}
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
