@@ -737,7 +737,8 @@ function CJSGame(props): any {
 
     function postEntry(targetDataResult, trialDataResult, gameLogicSchemeResult, scoringDataResult, metricDataResult){
         postEntryResult = {
-            "profileID" : props.userPhone,
+            "userID" : props.userId,
+            "userPhone" : props.userPhone,
             "entryInformation" : {
                 "rawData" : {
                     "target" : targetDataResult,

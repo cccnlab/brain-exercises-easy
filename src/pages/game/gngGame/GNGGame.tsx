@@ -434,7 +434,8 @@ function GNGGame(props) {
 
     function postEntry(cueDataResult, userInteractionDataResult, gameLogicSchemeResult, scoringDataResult, metricDataResult) {
         postEntryResult = {
-            "profileID" : props.userPhone,
+            "userID" : props.userId,
+            "userPhone" : props.userPhone,
             "entryInformation" : {
                 "rawData" : {
                     "cueData" : cueDataResult,
