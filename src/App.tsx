@@ -60,7 +60,7 @@ function App() {
     <>
       <Router>
           <Routes>
-            <Route path="/" element={< ParticipantForm setUserPhone={setUserPhone}/>}></Route>
+            <Route path="/" element={< ParticipantForm setUserId={setUserId} setUserPhone={setUserPhone}/>}></Route>
             <Route path="/landing" element={< LandingPage />}></Route>
             <Route path="/spatial-span" element={<SSLanding />}></Route>
             <Route path="/spatial-span/instruction" element={<SSInstruction />}></Route>

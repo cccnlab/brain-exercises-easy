@@ -13,15 +13,15 @@ export default function BreadCrumb() {
   const [hideUserId, setHideUserId] = useState(false);
   const location = useLocation();
   const pathName = location.pathname;
+  const id = getDataFromLocalStorage('userId');
   
-  let id = getDataFromLocalStorage('userId');
   let SSHeaderText = 'จำจด กดตาม';
   let CJSHeaderText = 'หากันจนเจอ';
   let GNGHeaderText = 'เขียวไป แดงหยุด';
   let pages = [
     { name: headerText, href: gameButtonLink, current: false },
   ]
-
+  
   useEffect(() => {
     if (pathName === '/landing') {
       setHeaderText('หน้าเลือกเกม');

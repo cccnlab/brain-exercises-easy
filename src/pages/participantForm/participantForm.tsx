@@ -13,6 +13,7 @@ function lengthIsinRange(text: string): boolean {
 
 export default function ParticipantForm(props:{
     setUserPhone: (phone:string)=>void
+    setUserId: (id:string)=>void
 }) {
     const navigate = useNavigate();
     const [promptUserId, setPromptUserId] = useState("XXXX");
@@ -75,7 +76,7 @@ export default function ParticipantForm(props:{
                     } else if (!lengthIsinRange(promptUserId) || !lengthIsinRange(promptUserPhone)) {
                       alert("กรุณากรอกเลข 4 หลักเท่านั้น");
                     } else {
-                      props.setUserPhone(promptUserId);
+                      props.setUserId(promptUserId);
                       props.setUserPhone(promptUserPhone);
                       navigate("/landing");
                       saveDataToLocalStorage('userId', promptUserId);
