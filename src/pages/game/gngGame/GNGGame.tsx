@@ -326,7 +326,7 @@ function GNGGame(props) {
         scoringDataResult = scoringData(rtBound, trialNumber, score);
         metricDataResult = metricData(hitCount, missCount, correctRejectionCount, falseAlarmCount, falseSignalRejectionCount, falseHitCount, hitRt, avgHitRt);
         postEntryResult = postEntry(cueDataResult, userInteractionDataResult, gameLogicSchemeResult, scoringDataResult, metricDataResult);
-        axios.post('http://hwsrv-1063269.hostwindsdns.com:9001/go-nogo', postEntryResult)
+        axios.post('https://hwsrv-1063269.hostwindsdns.com/exercise-api-easy/go-nogo', postEntryResult)
             .then(function (postEntryResult) {
                 console.log(postEntryResult)
             })
