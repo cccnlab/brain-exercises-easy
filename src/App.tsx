@@ -28,7 +28,7 @@ function App() {
 
     let id = getDataFromLocalStorage('userId');
     let phone = getDataFromLocalStorage('userPhone');
-    if (id !== null && phone !== null){
+    if ((id !== null && phone !== null) && (id !=="XXXX" && phone !== "XXXX")){
       setUserId(id);
       setUserPhone(phone);
       // window.location.replace(window.location.origin + "#/landing");
