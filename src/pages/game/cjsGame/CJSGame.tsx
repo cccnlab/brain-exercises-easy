@@ -15,6 +15,7 @@ import { Shuffle } from '../../../scripts/shuffle';
 import * as vismem from '../../../scripts/vismemCC_simon';
 import CJSButton from '../../../components/gameWindow/cjsWindow/cjsButton/CJSButton';
 import { saveJSONDataToClientDevice } from '../../../uitls/offline';
+import axios from 'axios';
 
 let myCanvas: HTMLCanvasElement;
 let canvasContext: CanvasRenderingContext2D;
@@ -639,8 +640,14 @@ function CJSGame(props): any {
         scoringDataResult = scoringData(rtBound, incorrectMultiplier, lateMultiplier, scoresMultiplier, trialNumber, total);
         metricDataResult = metricData(trialNumber, incorrectCount, correctButLateCount, setSizeInCorrectAns, timeLimitRecord, hitRt, avgHitRt, swiftness);
         postEntryResult = postEntry(targetDataResult, trialDataResult, gameLogicSchemeResult, scoringDataResult, metricDataResult);
+        axios.post('http://hwsrv-1063269.hostwindsdns.com:9001/conjunction-search', postEntryResult)
+            .then(function (postEntryResult) {
+                console.log(postEntryResult)
+            })
+            .catch(function (error) {
+                console.log('error')
+            });
         saveJSONDataToClientDevice(postEntryResult, `CJS_${props.userPhone}_${thisTime().toString()}`);
-        console.log(postEntryResult);
     }
 
     function scoringData(rtBound, incorrectMultiplier, lateMultiplier, scoresMultiplier, trialNumber, total){
@@ -737,9 +744,9 @@ function CJSGame(props): any {
 
     function postEntry(targetDataResult, trialDataResult, gameLogicSchemeResult, scoringDataResult, metricDataResult){
         postEntryResult = {
-            "userID" : props.userId,
+            "userId" : props.userId,
             "userPhone" : props.userPhone,
-            "entryInformation" : {
+            "data" : {
                 "rawData" : {
                     "target" : targetDataResult,
                     "trialData" : trialDataResult

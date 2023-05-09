@@ -14,6 +14,7 @@ import moment from 'moment';
 import RotateAlert from '../../../components/rotateAlert/RotateAlert';
 import { Shuffle } from '../../../scripts/shuffle';
 import { saveJSONDataToClientDevice } from '../../../uitls/offline';
+import axios from 'axios';
 
 let trialNumber = 100;
 let goSignalColor: string = getComputedStyle(document.documentElement).getPropertyValue('--go-color').trim();
@@ -325,8 +326,14 @@ function GNGGame(props) {
         scoringDataResult = scoringData(rtBound, trialNumber, score);
         metricDataResult = metricData(hitCount, missCount, correctRejectionCount, falseAlarmCount, falseSignalRejectionCount, falseHitCount, hitRt, avgHitRt);
         postEntryResult = postEntry(cueDataResult, userInteractionDataResult, gameLogicSchemeResult, scoringDataResult, metricDataResult);
+        axios.post('http://hwsrv-1063269.hostwindsdns.com:9001/go-nogo', postEntryResult)
+            .then(function (postEntryResult) {
+                console.log(postEntryResult)
+            })
+            .catch(function (error) {
+                console.log('error')
+            });
         saveJSONDataToClientDevice(postEntryResult, `GNG_${props.userPhone}_${thisTime().toString()}`);
-        console.log(postEntryResult);
     }
 
     function scoringData(rtBound, trialNumber, score){
@@ -434,9 +441,9 @@ function GNGGame(props) {
 
     function postEntry(cueDataResult, userInteractionDataResult, gameLogicSchemeResult, scoringDataResult, metricDataResult) {
         postEntryResult = {
-            "userID" : props.userId,
+            "userId" : props.userId,
             "userPhone" : props.userPhone,
-            "entryInformation" : {
+            "data" : {
                 "rawData" : {
                     "cueData" : cueDataResult,
                     "userInteractionData" : userInteractionDataResult
