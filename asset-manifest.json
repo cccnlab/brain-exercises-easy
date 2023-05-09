@@ -1,29 +1,29 @@
 {
   "files": {
-    "main.css": "/brain-excercises-easy/static/css/main.2a0dd03c.css",
-    "main.js": "/brain-excercises-easy/static/js/main.42eb89ad.js",
-    "static/js/845.eec07850.chunk.js": "/brain-excercises-easy/static/js/845.eec07850.chunk.js",
-    "static/js/787.189feaa7.chunk.js": "/brain-excercises-easy/static/js/787.189feaa7.chunk.js",
-    "static/media/ss-img.png": "/brain-excercises-easy/static/media/ss-img.1085540175ca227062c4.png",
-    "static/media/combo1.mp3": "/brain-excercises-easy/static/media/combo1.1bc6ea7eed39c4f2c3b8.mp3",
-    "static/media/combo2.mp3": "/brain-excercises-easy/static/media/combo2.dc4a26f58622d3a5a4c0.mp3",
-    "static/media/gonogo-img.png": "/brain-excercises-easy/static/media/gonogo-img.08938eb2418f1fbc937f.png",
-    "static/media/combo3.mp3": "/brain-excercises-easy/static/media/combo3.baee467a5476a005d616.mp3",
-    "static/media/scoreBadge.png": "/brain-excercises-easy/static/media/scoreBadge.19ad617b855d5df93fd6.png",
-    "static/media/conjs-img.png": "/brain-excercises-easy/static/media/conjs-img.d1ba3970365015d5ee9b.png",
-    "static/media/canvas.png": "/brain-excercises-easy/static/media/canvas.af9dd0d3d32af858101d.png",
-    "static/media/click.mp3": "/brain-excercises-easy/static/media/click.bac13dc239761d7d5b08.mp3",
-    "static/media/instructionFinished.png": "/brain-excercises-easy/static/media/instructionFinished.fed3583b2d80ff6a5f4b.png",
-    "static/media/losingStreak.mp3": "/brain-excercises-easy/static/media/losingStreak.3e9f53afed48af7cc022.mp3",
-    "static/media/rotate-phone.svg": "/brain-excercises-easy/static/media/rotate-phone.6172f756fbd62559e2be4c10385ec685.svg",
-    "index.html": "/brain-excercises-easy/index.html",
-    "main.2a0dd03c.css.map": "/brain-excercises-easy/static/css/main.2a0dd03c.css.map",
-    "main.42eb89ad.js.map": "/brain-excercises-easy/static/js/main.42eb89ad.js.map",
-    "845.eec07850.chunk.js.map": "/brain-excercises-easy/static/js/845.eec07850.chunk.js.map",
-    "787.189feaa7.chunk.js.map": "/brain-excercises-easy/static/js/787.189feaa7.chunk.js.map"
+    "main.css": "/static/css/main.2a0dd03c.css",
+    "main.js": "/static/js/main.f0200f98.js",
+    "static/js/845.eec07850.chunk.js": "/static/js/845.eec07850.chunk.js",
+    "static/js/787.189feaa7.chunk.js": "/static/js/787.189feaa7.chunk.js",
+    "static/media/ss-img.png": "/static/media/ss-img.1085540175ca227062c4.png",
+    "static/media/combo1.mp3": "/static/media/combo1.1bc6ea7eed39c4f2c3b8.mp3",
+    "static/media/combo2.mp3": "/static/media/combo2.dc4a26f58622d3a5a4c0.mp3",
+    "static/media/gonogo-img.png": "/static/media/gonogo-img.08938eb2418f1fbc937f.png",
+    "static/media/combo3.mp3": "/static/media/combo3.baee467a5476a005d616.mp3",
+    "static/media/scoreBadge.png": "/static/media/scoreBadge.19ad617b855d5df93fd6.png",
+    "static/media/conjs-img.png": "/static/media/conjs-img.d1ba3970365015d5ee9b.png",
+    "static/media/canvas.png": "/static/media/canvas.af9dd0d3d32af858101d.png",
+    "static/media/click.mp3": "/static/media/click.bac13dc239761d7d5b08.mp3",
+    "static/media/instructionFinished.png": "/static/media/instructionFinished.fed3583b2d80ff6a5f4b.png",
+    "static/media/losingStreak.mp3": "/static/media/losingStreak.3e9f53afed48af7cc022.mp3",
+    "static/media/rotate-phone.svg": "/static/media/rotate-phone.6172f756fbd62559e2be4c10385ec685.svg",
+    "index.html": "/index.html",
+    "main.2a0dd03c.css.map": "/static/css/main.2a0dd03c.css.map",
+    "main.f0200f98.js.map": "/static/js/main.f0200f98.js.map",
+    "845.eec07850.chunk.js.map": "/static/js/845.eec07850.chunk.js.map",
+    "787.189feaa7.chunk.js.map": "/static/js/787.189feaa7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.2a0dd03c.css",
-    "static/js/main.42eb89ad.js"
+    "static/js/main.f0200f98.js"
   ]
 }
