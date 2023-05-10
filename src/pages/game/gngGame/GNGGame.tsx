@@ -320,6 +320,7 @@ function GNGGame(props) {
     function Done() {
         setIsItDone(true);
         checkAllAns();
+        total = getSummaryScore();
         console.log(hitRt)
         console.log(hitRt[0])
         console.log(avgHitRt)
@@ -489,7 +490,6 @@ function GNGGame(props) {
         if (hitRt.length > 1) {
             hitRt.shift();
         }
-        return getSummaryScore();
     }
 
     function getSummaryScore() {
