@@ -8,7 +8,7 @@ function ScoreSummaryOverlay(props) {
       <div className="summaryContainer">
           <div className="summaryHeader">
               <p className='thisScore'>คะแนนครั้งนี้</p>
-              <p className='bigScore'>{Math.max(10000, Math.round(props.sumScores)).toLocaleString()}</p>
+              <p className='bigScore'>{props.sumScores.toLocaleString()}</p>
           </div>
           <div className="summaryBadge">
               <img src={scoreBadge} alt='badge' className={'medalBadge'}></img>
