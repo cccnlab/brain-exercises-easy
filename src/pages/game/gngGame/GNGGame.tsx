@@ -319,11 +319,13 @@ function GNGGame(props) {
 
     function Done() {
         setIsItDone(true);
-        let end = endTime();
-        score = Math.max(10000, checkAllAns());
+        checkAllAns();
+        console.log(hitRt)
+        console.log(hitRt[0])
+        console.log(avgHitRt)
         cueDataResult = cueData(allColorPop, allTimeEvent);
         userInteractionDataResult = userInteractionData(allInteractionEvent, allClickEvent);
-        scoringDataResult = scoringData(rtBound, trialNumber, score);
+        scoringDataResult = scoringData(rtBound, trialNumber, total);
         metricDataResult = metricData(hitCount, missCount, correctRejectionCount, falseAlarmCount, falseSignalRejectionCount, falseHitCount, hitRt, avgHitRt);
         postEntryResult = postEntry(cueDataResult, userInteractionDataResult, gameLogicSchemeResult, scoringDataResult, metricDataResult);
         axios.post('https://hwsrv-1063269.hostwindsdns.com/exercise-api-easy/go-nogo', postEntryResult)
@@ -336,7 +338,7 @@ function GNGGame(props) {
         saveJSONDataToClientDevice(postEntryResult, `GNG_${props.userPhone}_${thisTime().toString()}`);
     }
 
-    function scoringData(rtBound, trialNumber, score){
+    function scoringData(rtBound, trialNumber, total){
         scoringDataResult = [{
             "scoringModel" : {
                 "scoringName" : "default",
@@ -355,7 +357,7 @@ function GNGGame(props) {
                 },
                 "description" : `score = sum of the scorePerTrial if comboCount = [1, 2, 3, 4] -> comboMultiplier = [1, 1.5, 3, 5]`
             },
-            "score" : score
+            "score" : total
         }]
         return scoringDataResult;
     }
