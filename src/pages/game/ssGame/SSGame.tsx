@@ -348,7 +348,7 @@ function SSGame(props) {
     // let allSpanSizeRange = [2, 3, 4, 5, 6, 7, 8];
     // let trialsPerSpanSize = 8; 
     let allSpanSizeRange = [2, 3];
-    let trialsPerSpanSize = 4;
+    let trialsPerSpanSize = 2;
     let sequenceDirection = 1; // forward only
     let trialsPerDirection = trialsPerSpanSize / sequenceDirection; 
 
@@ -570,7 +570,7 @@ function SSGame(props) {
             .catch(function (error) {
                 console.log('error')
             });
-      saveJSONDataToClientDevice(postEntryResult, `SS_${props.userPhone}_${thisTime().toString()}`);
+    //   saveJSONDataToClientDevice(postEntryResult, `SS_${props.userPhone}_${thisTime().toString()}`);
   }
 
   function cueData(currSeq: string | any[], cueColor: string, cueBorderColor: string, cueStartTime: any[], cueEndTime: any[]){

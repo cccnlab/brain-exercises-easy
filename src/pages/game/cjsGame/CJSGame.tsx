@@ -632,7 +632,7 @@ function CJSGame(props): any {
             swiftness = "ปานกลาง";
         }
 
-        total = Math.round((sumScores - (incorrectCount * incorrectMultiplier + correctButLateCount * lateMultiplier)) * scoresMultiplier / trialNumber);
+        total = Math.max(10000, Math.round((sumScores - (incorrectCount * incorrectMultiplier + correctButLateCount * lateMultiplier)) * scoresMultiplier / trialNumber));
 
         return total;
     }
@@ -651,7 +651,7 @@ function CJSGame(props): any {
             .catch(function (error) {
                 console.log('error')
             });
-        saveJSONDataToClientDevice(postEntryResult, `CJS_${props.userPhone}_${thisTime().toString()}`);
+        // saveJSONDataToClientDevice(postEntryResult, `CJS_${props.userPhone}_${thisTime().toString()}`);
     }
 
     function scoringData(rtBound, incorrectMultiplier, lateMultiplier, scoresMultiplier, trialNumber, total){
