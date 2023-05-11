@@ -87,13 +87,13 @@ let lateMultiplier = 10000;
 let incorrectCount = 0;
 let incorrectMultiplier = 20000;
 let scorePerTrial = [0];
-let sumScores = 0;
+let sumScores: number = 0;
 let scoresMultiplier = 10;
 let comboCount: number[] = [];
 let rtBound = 10000;
 let avgHitRt;
 let swiftness: string = '';
-let total = 0;
+let total: number = 0;
 let targetMatch: boolean[] = [];
 let allStartTime: string[] = [];
 let allClickTime: string[] = [];
@@ -289,8 +289,10 @@ function CJSGame(props): any {
     }
 
     function createPseudorandomStimuli() {
-        let allSetsizeRange = [16, 18, 20, 22, 24, 26, 28, 30];
-        let trialsPerSetsize = 10; 
+        // let allSetsizeRange = [16, 18, 20, 22, 24, 26, 28, 30];
+        // let trialsPerSetsize = 10; 
+        let allSetsizeRange = [16, 18];
+        let trialsPerSetsize = 2; 
         let targetCondition = 2; // target appear or disappear
         let trialsPerCondition = trialsPerSetsize / targetCondition; 
 
@@ -628,7 +630,7 @@ function CJSGame(props): any {
             swiftness = "ปานกลาง";
         }
 
-        total = Math.max(10000, Math.round((sumScores - (incorrectCount * incorrectMultiplier + correctButLateCount * lateMultiplier)) * scoresMultiplier / trialNumber));
+        total = Math.round((sumScores - (incorrectCount * incorrectMultiplier + correctButLateCount * lateMultiplier)) * scoresMultiplier / trialNumber);
 
         return total;
     }

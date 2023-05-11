@@ -16,7 +16,7 @@ import { Shuffle } from '../../../scripts/shuffle';
 import { saveJSONDataToClientDevice } from '../../../uitls/offline';
 import axios from 'axios';
 
-let trialNumber = 100;
+let trialNumber = 10;
 let goSignalColor: string = getComputedStyle(document.documentElement).getPropertyValue('--go-color').trim();
 let noGoSignalColor: string = getComputedStyle(document.documentElement).getPropertyValue('--nogo-color').trim();
 let restColor: string = getComputedStyle(document.documentElement).getPropertyValue('--rest-color').trim();
@@ -27,7 +27,7 @@ let haveDone = false;
 let haveToClick = false;
 let falseClicked = false;
 let rtBound = 1000;
-let total = 0;
+let total: number = 0;
 let score: number;
 let correctCountForCombo = 0;
 let comboCount: number[] = [];
@@ -324,6 +324,7 @@ function GNGGame(props) {
         console.log(hitRt)
         console.log(hitRt[0])
         console.log(avgHitRt)
+        console.log(total)
         cueDataResult = cueData(allColorPop, allTimeEvent);
         userInteractionDataResult = userInteractionData(allInteractionEvent, allClickEvent);
         scoringDataResult = scoringData(rtBound, trialNumber, total);
