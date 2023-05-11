@@ -94,6 +94,7 @@ let rtBound = 10000;
 let avgHitRt;
 let swiftness: string = '';
 let total: number = 0;
+let score: number;
 let targetMatch: boolean[] = [];
 let allStartTime: string[] = [];
 let allClickTime: string[] = [];
@@ -580,6 +581,7 @@ function CJSGame(props): any {
         }
         currTrial = currTrial + 1;
         if (currTrial >= trialNumber) {
+            summaryScore();
             Done();
         } else {
             initialT(0, allSetsizeAndTarget[currTrial][0]);
@@ -637,6 +639,7 @@ function CJSGame(props): any {
 
     function Done() {
         setIsItDone(true);
+        score = total;
         hightestSetSizeCheck(checkAns, setSizeRecord);
         scoringDataResult = scoringData(rtBound, incorrectMultiplier, lateMultiplier, scoresMultiplier, trialNumber, total);
         metricDataResult = metricData(trialNumber, incorrectCount, correctButLateCount, setSizeInCorrectAns, timeLimitRecord, hitRt, avgHitRt, swiftness);

@@ -27,6 +27,7 @@ let haveDone = false;
 let haveToClick = false;
 let falseClicked = false;
 let rtBound = 1000;
+let scorePerTrial: number[] = [];
 let total: number = 0;
 let score: number;
 let correctCountForCombo = 0;
@@ -40,7 +41,7 @@ let testEnd: Date[] = [];
 let rt: number[] = [];
 let hitRt: number[] = [0];
 let sumHitRt;
-let avgHitRt;
+let avgHitRt: number = 0;
 let blockDuration = 1; // sec เข้าใจว่าระยะห่างของเวลาการปิ้งแว้บขึ้นของแต่ละตัว (ยิ่งเยอะตัวปิ้งแว้บยิ่งน้อย)
 let changeRate = 0.8; // % changes 
 let noGoRate = 0.2; // % nogo 
@@ -311,33 +312,11 @@ function GNGGame(props) {
                 testEnd.push(endTime());
                 if (haveDone === false) {
                     haveDone = true;
+                    checkAllAns();
                     Done();
                 }
             }, waitTheWholeTime)
         )
-    }
-
-    function Done() {
-        setIsItDone(true);
-        checkAllAns();
-        total = getSummaryScore();
-        console.log(hitRt)
-        console.log(hitRt[0])
-        console.log(avgHitRt)
-        console.log(total)
-        cueDataResult = cueData(allColorPop, allTimeEvent);
-        userInteractionDataResult = userInteractionData(allInteractionEvent, allClickEvent);
-        scoringDataResult = scoringData(rtBound, trialNumber, total);
-        metricDataResult = metricData(hitCount, missCount, correctRejectionCount, falseAlarmCount, falseSignalRejectionCount, falseHitCount, hitRt, avgHitRt);
-        postEntryResult = postEntry(cueDataResult, userInteractionDataResult, gameLogicSchemeResult, scoringDataResult, metricDataResult);
-        axios.post('https://hwsrv-1063269.hostwindsdns.com/exercise-api-easy/go-nogo', postEntryResult)
-            .then(function (postEntryResult) {
-                console.log(postEntryResult)
-            })
-            .catch(function (error) {
-                console.log('error')
-            });
-        saveJSONDataToClientDevice(postEntryResult, `GNG_${props.userPhone}_${thisTime().toString()}`);
     }
 
     function scoringData(rtBound, trialNumber, total){
@@ -491,10 +470,10 @@ function GNGGame(props) {
         if (hitRt.length > 1) {
             hitRt.shift();
         }
+        getSummaryScore();
     }
 
     function getSummaryScore() {
-        let scorePerTrial = [0];
         let latestHitRtIndex = 0;
         for (let correctIndex = latestHitRtIndex; correctIndex < comboCount.length; correctIndex++) {
             latestHitRtIndex = correctIndex;
@@ -517,9 +496,13 @@ function GNGGame(props) {
 
         avgHitRt = sumHitRt / 1000 / hitRt.length;
         
-        total = scorePerTrial.reduce((sum, score) => {
-            return sum + score;
-        });
+        if (scorePerTrial.length !== 0){
+            total = scorePerTrial.reduce((sum, score) => {
+                return sum + score;
+            });
+        } else {
+          scorePerTrial.push(0);
+        }
 
         return total;
     }
@@ -571,6 +554,24 @@ function GNGGame(props) {
                 }
             }
         }
+    }
+
+    function Done() {
+        setIsItDone(true);
+        score = total;
+        cueDataResult = cueData(allColorPop, allTimeEvent);
+        userInteractionDataResult = userInteractionData(allInteractionEvent, allClickEvent);
+        scoringDataResult = scoringData(rtBound, trialNumber, score);
+        metricDataResult = metricData(hitCount, missCount, correctRejectionCount, falseAlarmCount, falseSignalRejectionCount, falseHitCount, hitRt, avgHitRt);
+        postEntryResult = postEntry(cueDataResult, userInteractionDataResult, gameLogicSchemeResult, scoringDataResult, metricDataResult);
+        axios.post('https://hwsrv-1063269.hostwindsdns.com/exercise-api-easy/go-nogo', postEntryResult)
+            .then(function (postEntryResult) {
+                console.log(postEntryResult)
+            })
+            .catch(function (error) {
+                console.log('error')
+            });
+        // saveJSONDataToClientDevice(postEntryResult, `GNG_${props.userPhone}_${thisTime().toString()}`);
     }
 
     function touchStart() {
