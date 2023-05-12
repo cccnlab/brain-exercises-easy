@@ -569,7 +569,7 @@ function GNGGame(props) {
             .catch(function (error) {
                 console.log('error')
             });
-        // saveJSONDataToClientDevice(postEntryResult, `GNG_${props.userPhone}_${thisTime().toString()}`);
+        saveJSONDataToClientDevice(postEntryResult, `GNG_${props.userPhone}_${thisTime().toString()}`);
     }
 
     function touchStart() {

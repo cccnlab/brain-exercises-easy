@@ -570,7 +570,7 @@ function SSGame(props) {
             .catch(function (error) {
                 console.log('error')
             });
-    //   saveJSONDataToClientDevice(postEntryResult, `SS_${props.userPhone}_${thisTime().toString()}`);
+      saveJSONDataToClientDevice(postEntryResult, `SS_${props.userPhone}_${thisTime().toString()}`);
   }
 
   function cueData(currSeq: string | any[], cueColor: string, cueBorderColor: string, cueStartTime: any[], cueEndTime: any[]){

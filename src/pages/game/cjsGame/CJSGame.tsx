@@ -651,7 +651,7 @@ function CJSGame(props): any {
             .catch(function (error) {
                 console.log('error')
             });
-        // saveJSONDataToClientDevice(postEntryResult, `CJS_${props.userPhone}_${thisTime().toString()}`);
+        saveJSONDataToClientDevice(postEntryResult, `CJS_${props.userPhone}_${thisTime().toString()}`);
     }
 
     function scoringData(rtBound, incorrectMultiplier, lateMultiplier, scoresMultiplier, trialNumber, total){
