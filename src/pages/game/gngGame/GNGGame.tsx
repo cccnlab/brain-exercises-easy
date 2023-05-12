@@ -16,7 +16,7 @@ import { Shuffle } from '../../../scripts/shuffle';
 import { saveJSONDataToClientDevice } from '../../../uitls/offline';
 import axios from 'axios';
 
-let trialNumber = 10;
+let trialNumber = 100;
 let goSignalColor: string = getComputedStyle(document.documentElement).getPropertyValue('--go-color').trim();
 let noGoSignalColor: string = getComputedStyle(document.documentElement).getPropertyValue('--nogo-color').trim();
 let restColor: string = getComputedStyle(document.documentElement).getPropertyValue('--rest-color').trim();

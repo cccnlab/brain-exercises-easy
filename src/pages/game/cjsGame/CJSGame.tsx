@@ -290,10 +290,10 @@ function CJSGame(props): any {
     }
 
     function createPseudorandomStimuli() {
-        // let allSetsizeRange = [16, 18, 20, 22, 24, 26, 28, 30];
-        // let trialsPerSetsize = 10; 
-        let allSetsizeRange = [16, 18];
-        let trialsPerSetsize = 2; 
+        let allSetsizeRange = [16, 18, 20, 22, 24, 26, 28, 30];
+        let trialsPerSetsize = 10; 
+        // let allSetsizeRange = [16, 18];
+        // let trialsPerSetsize = 2; 
         let targetCondition = 2; // target appear or disappear
         let trialsPerCondition = trialsPerSetsize / targetCondition; 
 
