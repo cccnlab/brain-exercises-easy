@@ -760,6 +760,7 @@ function CJSGame(props): any {
                 "metricData" : metricDataResult
             }
         }
+        console.log(postEntryResult);
         return postEntryResult;
     }
 

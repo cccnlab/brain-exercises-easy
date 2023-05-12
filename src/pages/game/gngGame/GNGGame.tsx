@@ -26,7 +26,7 @@ let timeOffset = 100;
 let haveDone = false;
 let haveToClick = false;
 let falseClicked = false;
-let rtBound = 1000;
+let rtBound: number = 1000;
 let scorePerTrial: number[] = [];
 let total: number = 0;
 let score: number;
@@ -39,7 +39,9 @@ let allInteractionEvent: string[] = [];
 let allClickEvent: string[] = [];
 let testEnd: Date[] = [];
 let rt: number[] = [];
-let hitRt: number[] = [0];
+let hitRt: number[] = [];
+let latestRtIndex = 0;
+let latestHitRtIndex = 0;
 let sumHitRt;
 let avgHitRt: number = 0;
 let blockDuration = 1; // sec เข้าใจว่าระยะห่างของเวลาการปิ้งแว้บขึ้นของแต่ละตัว (ยิ่งเยอะตัวปิ้งแว้บยิ่งน้อย)
@@ -119,7 +121,7 @@ function GNGGame(props) {
 
     function initiateData() {
         rt = [];
-        hitRt = [0];
+        hitRt = [];
         allTimePop = [];
         allColorPop = [];
         testEnd = [];
@@ -436,11 +438,11 @@ function GNGGame(props) {
                 "metricData" : metricDataResult
             }
         }
+        console.log(postEntryResult);
         return postEntryResult;
     }
 
     function checkAllAns() {
-        let latestRtIndex = 0;
         for (let popIndex = 0; popIndex < allColorPop.length; popIndex++) {
             let currColorPop = allColorPop[popIndex];
             let currTimePop = allTimePop[popIndex];
@@ -457,24 +459,20 @@ function GNGGame(props) {
                     continue;
                 } else if ((currRt >= currTimePop) && (currRt < nextTimePop)) {
                     if (satisfied === false) {
-                        if (currColorPop === '#26A445') {
+                        if (currColorPop === goSignalColor) {
                             hitRt.push(currRt - currTimePop.getTime());
                         }
                         satisfied = true;
+                        }
+                    } else {
+                        break;
                     }
-                } else {
-                    break;
                 }
-            }
-        }
-        if (hitRt.length > 1) {
-            hitRt.shift();
         }
         getSummaryScore();
     }
 
     function getSummaryScore() {
-        let latestHitRtIndex = 0;
         for (let correctIndex = latestHitRtIndex; correctIndex < comboCount.length; correctIndex++) {
             latestHitRtIndex = correctIndex;
             let rtScore = rtBound - hitRt[correctIndex];
@@ -558,7 +556,7 @@ function GNGGame(props) {
 
     function Done() {
         setIsItDone(true);
-        score = total;
+        score = Math.max(10000, Math.round(total));
         cueDataResult = cueData(allColorPop, allTimeEvent);
         userInteractionDataResult = userInteractionData(allInteractionEvent, allClickEvent);
         scoringDataResult = scoringData(rtBound, trialNumber, score);
