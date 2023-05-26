@@ -277,7 +277,7 @@ function SSInstruction() {
 
   const checkSeq = event => {
       if (isTest === true){
-          clickSound();
+        //   clickSound();
       }
 
       if (event.currentTarget.classList.contains('1')) {
@@ -349,7 +349,7 @@ function SSInstruction() {
             if (equalCheck(currAns, currSeq)) {
                 $('#goSignal').html("ถูก");
                 setTutorialTest('right');
-                combo2Sound();
+                // combo2Sound();
                 currSeq = [];
 
               if (tutorialStep === 5){
@@ -361,7 +361,7 @@ function SSInstruction() {
             } else {
                 $('#goSignal').html("ผิด");
                 setTutorialTest('wrong');
-                losingSound();
+                // losingSound();
                 currSeq = [];
             }
       }

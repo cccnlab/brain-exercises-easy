@@ -71,6 +71,8 @@ let timeLimitDeclineStep = 1000;
 let timeLimitInclineStep = 500;
 let checkAns: string[] = [];
 let thatRight: string = '';
+let responseText: string = '';
+let timeoutList: any[] = []; 
 let count = 0;
 let NupNdown = 5;
 let trackRecord = 0;
@@ -117,11 +119,18 @@ function CJSGame(props): any {
     const [losingSound] = useSound(losingSoundSrc);
     const [searchTarget, setSearchTarget] = useState<{ shape: number, col: number }>();
     const [progressValue, setProgressValue] = useState(0);
+    const [disabledButton, setDisabledButton] = useState(false);
     const [isItDone, setIsItDone] = useState(false);
 
         useEffect(() => {
             initiateData();
             setSearchTarget({ shape: (Math.random() > 0.5 ? 1 : 0), col: (Math.random() > 0.5 ? 1 : 0) });
+
+            return() => {
+                timeoutList.forEach(tm => {
+                    clearTimeout(tm);
+                })
+            };
         }, [])
 
         useEffect(() => {
@@ -290,10 +299,8 @@ function CJSGame(props): any {
     }
 
     function createPseudorandomStimuli() {
-        let allSetsizeRange = [16, 18, 20, 22, 24, 26, 28, 30];
-        let trialsPerSetsize = 10; 
-        // let allSetsizeRange = [16, 18];
-        // let trialsPerSetsize = 2; 
+        let allSetsizeRange = [2, 6, 12, 24, 44];
+        let trialsPerSetsize = 16; 
         let targetCondition = 2; // target appear or disappear
         let trialsPerCondition = trialsPerSetsize / targetCondition; 
 
@@ -336,10 +343,11 @@ function CJSGame(props): any {
     }
 
     function initialT(_waittime, SS) {
+        setDisabledButton(false);
         setSizeRecord.push(ceilingSS);
         timeLimitRecord.push(timeLimit);
         if (!ceilingSS) {
-            ceilingSS = SS + 1
+            ceilingSS = SS + 1;
         };
         vismem.erase(canvasContext);
         vismem.clear();
@@ -508,14 +516,14 @@ function CJSGame(props): any {
     
     function checkResp(foo) {
         setProgressValue(progressValue + 1);
-        clickSound();
+        // clickSound();
         let dT2 = new Date();
         ET = dT2.getTime();
         allClickTime.push(thisTime());
         let rt = ET - STT;
         allRt.push(rt);
         if (change === foo) {
-            combo2Sound();
+            // combo2Sound();
             if (rt < timeLimit) {
                 trackRecord = trackRecord + 1;
                 thatRight = 'right';
@@ -535,14 +543,14 @@ function CJSGame(props): any {
                     comboCount.push(5);
                 }
             } else {
-                combo2Sound();
+                // combo2Sound();
                 thatRight = 'late';
                 trackRecord = 0;
                 checkAns.push(thatRight);
                 correctButLateCount++;
             }
         } else {
-            losingSound()
+            // losingSound();
             thatRight = 'wrong';
             trackRecord = 0;
             checkAns.push(thatRight);
@@ -584,8 +592,45 @@ function CJSGame(props): any {
             summaryScore();
             Done();
         } else {
-            initialT(0, allSetsizeAndTarget[currTrial][0]);
+            trialConclude();
         }
+    }
+
+    function trialConclude() {
+        setDisabledButton(true);
+        vismem.erase(canvasContext);
+        vismem.clear();
+        makeBackground(backgroundColor);
+        vismem.drawObjects(canvasContext, vismem.objects);
+        
+        let textHeight = 0;
+        if (thatRight === 'wrong'){
+            responseText = "ผิด";
+            textHeight = 36;
+        } else {
+            responseText = "ถูก";
+            textHeight = 20;
+        }
+
+        canvasContext.font = "120px Sarabun"
+        let textWidth = canvasContext.measureText(responseText).width;
+        timeoutList.push(
+            setTimeout(function() {
+                let text = vismem.makeText('t', centerX - textWidth/2, centerY + textHeight, responseText, "Black", canvasContext.font);
+                vismem.drawText(canvasContext, text);
+            }, 100),
+
+            setTimeout(function() {
+                vismem.erase(canvasContext);
+                vismem.clear();
+                makeBackground(backgroundColor);
+                vismem.drawObjects(canvasContext, vismem.objects);
+            }, 600),
+
+            setTimeout(function() {
+                initialT(0, allSetsizeAndTarget[currTrial][0]);
+            }, 900)
+        )
     }
 
     function summaryScore() {
@@ -760,7 +805,6 @@ function CJSGame(props): any {
                 "metricData" : metricDataResult
             }
         }
-        console.log(postEntryResult);
         return postEntryResult;
     }
 
@@ -794,13 +838,13 @@ function CJSGame(props): any {
                 {<CJSWindow searchTarget={searchTarget} searchTargetList={searchTargetList} canvasWidth={canvasWidth} canvasHeight={canvasHeight}/>}
               </div>
               <div className="CJSGameEnterButton">
-                {<CJSButton searchTarget={searchTarget} checkResp={checkResp}/>}
+                {<CJSButton searchTarget={searchTarget} disabledButton={disabledButton} checkResp={checkResp}/>}
               </div>
             </div>
         </div>
         {isItDone ? 
         <div>
-            {<ScoreSummaryOverlay sumScores={total} refreshPage={refreshPage} backToLandingPage={backToLandingPage}/>}
+            {<ScoreSummaryOverlay accuracy={((trialNumber - incorrectCount) / trialNumber) * 100} avgHitRt={avgHitRt} refreshPage={refreshPage} backToLandingPage={backToLandingPage}/>}
         </div>
         : null}
         {<RotateAlert />}

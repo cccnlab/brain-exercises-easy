@@ -172,9 +172,9 @@ function GNGInstruction(props) {
     }
 
     function checkResp(foo) {
-        clickSound();
+        // clickSound();
         if (tutorialStep === 5) {
-            combo1Sound();
+            // combo1Sound();
             instructionControl();
         }
 
@@ -188,13 +188,13 @@ function GNGInstruction(props) {
                 }
 
                 if (correctCountForCombo === 1) {
-                   combo1Sound();
+                //    combo1Sound();
                    setProgressValue(progressValue + 24);
                 } else if (correctCountForCombo === 2) {
-                   combo2Sound();
+                //    combo2Sound();
                    setProgressValue(progressValue + 24);
                 } else if (correctCountForCombo === 3) {
-                   combo3Sound();
+                //    combo3Sound();
                    setTutorialTest('right');
                    instructionControl();
                    setProgressValue(progressValue + 24);
@@ -202,7 +202,7 @@ function GNGInstruction(props) {
                 } 
     
             } else {
-                losingSound();
+                // losingSound();
                 setProgressValue(30);
                 correctCountForCombo = 0;
                 if (currentColor === "red") {

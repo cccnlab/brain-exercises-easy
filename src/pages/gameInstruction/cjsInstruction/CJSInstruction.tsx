@@ -215,7 +215,7 @@ function CJSInstruction(props) {
     }
 
     function checkResp(foo) {
-        clickSound();
+        // clickSound();
 
         if (tryAgain === true) {
             setTryAgain(false);
@@ -230,13 +230,13 @@ function CJSInstruction(props) {
             if (tutorialTest === '') {
                 setTutorialTest('right');
             }
-            combo2Sound();
+            // combo2Sound();
             trackRecord = trackRecord + 1;
         } else {
             if (tutorialTest === '') {
                 setTutorialTest('wrong');
             }
-            losingSound()
+            // losingSound();
             trackRecord = 0;
             setTimeout(() => {
                 setTryAgain(true);

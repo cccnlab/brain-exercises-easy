@@ -6,10 +6,10 @@ function CJSButton(props) {
     <div>
         {props.searchTarget ?
                 <div className="btnContainer">
-                    <button id='no-btn' className='btn no-btn circle lg'
+                    <button id='no-btn' disabled = {props.disabledButton} className='btn no-btn circle lg'
                         onMouseDown={e => props.checkResp(0)}> ไม่มี </button>
 
-                    <button id='yes-btn' className='btn yes-btn circle lg'
+                    <button id='yes-btn' disabled = {props.disabledButton} className='btn yes-btn circle lg'
                         onMouseDown={e => props.checkResp(1)}> มี </button>
                 </div>
             : null}

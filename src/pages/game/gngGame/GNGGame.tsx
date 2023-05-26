@@ -20,7 +20,7 @@ let trialNumber = 100;
 let goSignalColor: string = getComputedStyle(document.documentElement).getPropertyValue('--go-color').trim();
 let noGoSignalColor: string = getComputedStyle(document.documentElement).getPropertyValue('--nogo-color').trim();
 let restColor: string = getComputedStyle(document.documentElement).getPropertyValue('--rest-color').trim();
-let flashDuration = 300;
+let flashDuration = 450;
 let baseFlashInterval = 600;
 let timeOffset = 100;
 let haveDone = false;
@@ -104,6 +104,7 @@ function GNGGame(props) {
     const [losingSound] = useSound(losingSoundSrc);
     const [progressValue, setProgressValue] = useState(0);
     const [isItDone, setIsItDone] = useState(false);
+    const [hardGNGDone, setHardGNGDone] = useState(false);
     let timeoutList: any[] = [];
 
     useEffect(() => {
@@ -321,7 +322,7 @@ function GNGGame(props) {
         )
     }
 
-    function scoringData(rtBound, trialNumber, total){
+    function scoringData(rtBound, trialNumber, score){
         scoringDataResult = [{
             "scoringModel" : {
                 "scoringName" : "default",
@@ -340,7 +341,7 @@ function GNGGame(props) {
                 },
                 "description" : `score = sum of the scorePerTrial if comboCount = [1, 2, 3, 4] -> comboMultiplier = [1, 1.5, 3, 5]`
             },
-            "score" : total
+            "score" : score
         }]
         return scoringDataResult;
     }
@@ -438,7 +439,6 @@ function GNGGame(props) {
                 "metricData" : metricDataResult
             }
         }
-        console.log(postEntryResult);
         return postEntryResult;
     }
 
@@ -506,7 +506,7 @@ function GNGGame(props) {
     }
 
     function checkResp() {
-        clickSound();
+        // clickSound();
         if (currEventId === 1) {
             if (haveToClick === false) {
                 haveToClick = true;
@@ -517,26 +517,26 @@ function GNGGame(props) {
                 }
                 if (correctCountForCombo === 1) {
                     comboCount.push(1);
-                    combo1Sound();
+                    // combo1Sound();
                 } else if (correctCountForCombo === 2) {
                     comboCount.push(1);
-                    combo2Sound();
+                    // combo2Sound();
                 } else if (correctCountForCombo === 3) {
                     comboCount.push(2);
-                    combo3Sound();
+                    // combo3Sound();
                 } else if (correctCountForCombo === 4) {
                     comboCount.push(3);
-                    combo3Sound();
+                    // combo3Sound();
                 } else if (correctCountForCombo === 5) {
                     comboCount.push(4);
-                    combo3Sound();
+                    // combo3Sound();
                 }
             }
             hitCount++;
         } else {
             if (falseClicked === false) {
                 correctCountForCombo = 0;
-                losingSound();
+                // losingSound();
                 falseClicked = true;
                 if (currEventId === 0) {
                     falseAlarmCount++;
@@ -556,6 +556,7 @@ function GNGGame(props) {
 
     function Done() {
         setIsItDone(true);
+        setHardGNGDone(true);
         score = Math.max(10000, Math.round(total));
         cueDataResult = cueData(allColorPop, allTimeEvent);
         userInteractionDataResult = userInteractionData(allInteractionEvent, allClickEvent);
@@ -616,7 +617,7 @@ function GNGGame(props) {
         </div>
         {isItDone ? 
         <div>
-            {<ScoreSummaryOverlay sumScores={total} refreshPage={refreshPage} backToLandingPage={backToLandingPage}/>}
+            {<ScoreSummaryOverlay accuracy={((hitCount + correctRejectionCount + falseSignalRejectionCount) / trialNumber) * 100}  falseHit={(falseHitCount / allNoGo) * 100} avgHitRt={avgHitRt} hardGNGDone={hardGNGDone} refreshPage={refreshPage} backToLandingPage={backToLandingPage}/>}
         </div>
         : null}
         {<RotateAlert />}

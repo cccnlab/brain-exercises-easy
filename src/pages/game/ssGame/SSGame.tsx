@@ -14,6 +14,7 @@ import moment from 'moment';
 import RotateAlert from '../../../components/rotateAlert/RotateAlert';
 import { Shuffle } from '../../../scripts/shuffle';
 import { saveDataToClientDevice, saveDataToIndexedDB, saveJSONDataToClientDevice } from '../../../uitls/offline';
+import { samplingFromList } from '../../../uitls/main';
 import axios from 'axios';
 
 let progressBarElement: HTMLProgressElement;
@@ -28,9 +29,9 @@ const probeAngularPosition: number[] = [45, 90, 135, 225, 270, 315];
 const probeShape: string = 'circle';
 const probeParams: string = 'radius'; 
 const radius: string = (getComputedStyle(document.documentElement).getPropertyValue('--cir-base-unit') + " / 2 " );
-const cueColor: string = getComputedStyle(document.documentElement).getPropertyValue('--cue-color').trim();
-const cueBorderColor: string = getComputedStyle(document.documentElement).getPropertyValue('--cue-border-color').trim();
-const restColor: string = getComputedStyle(document.documentElement).getPropertyValue('--rest-color').trim();
+let cueColor: string = getComputedStyle(document.documentElement).getPropertyValue('--cue-color').trim();
+let cueBorderColor: string = getComputedStyle(document.documentElement).getPropertyValue('--cue-border-color').trim();
+const restColor: string = getComputedStyle(document.documentElement).getPropertyValue('--ss-rest-color').trim();
 const restBorderColor: string = getComputedStyle(document.documentElement).getPropertyValue('-rest-border-color').trim();
 const rampingCorrectCount: number = 3;
 const maxFailStreakCount: number = 2;
@@ -59,6 +60,9 @@ let allReactionTime: string[]  = [];
 let reactionTime: number[] = [];
 let allReactionTrial: number[] = [];
 let answerTimePerTrial: any[] = [];
+let hitRt: number[] = [];
+let sumHitRt;
+let avgHitRt;
 let latestIndex: number = 0;
 let scorePerTrial: number[] = [];
 let spanMultiplier: number = 1000;
@@ -114,67 +118,86 @@ function SSGame(props) {
           let end : number = endTime();
           reactionTime.push(end - startTime);
           answerTimePerTrial.push(thisTime());
-          clickSound();
+        //   clickSound();
       }
 
       if (event.currentTarget.classList.contains('1')) {
-          currAns.push(1);
-          ($('#cirButton1').addClass('clicked'));
-          timeoutList.push(
-              setTimeout(function() {
-                  $('#cirButton1').removeClass('clicked') 
-              }, 150)
-          )
-      } else if (event.currentTarget.classList.contains('2')) {
-          currAns.push(2);
-          ($('#cirButton2').addClass('clicked'));
-          timeoutList.push(
-              setTimeout(function() {
-                  $('#cirButton2').removeClass('clicked') 
-              }, 150)
-          )
-      } else if (event.currentTarget.classList.contains('3')) {
-          currAns.push(3);
-          ($('#cirButton3').addClass('clicked'));
-          timeoutList.push(
-              setTimeout(function() {
-                  $('#cirButton3').removeClass('clicked') 
-              }, 150)
-          )
-      } else if (event.currentTarget.classList.contains('4')) { 
-          currAns.push(4);
-          ($('#cirButton4').addClass('clicked'));
-          timeoutList.push(
-              setTimeout(function() {
-                  $('#cirButton4').removeClass('clicked') 
-              }, 150)
-          )
-      } else if (event.currentTarget.classList.contains('5')) {
-          currAns.push(5);
-          ($('#cirButton5').addClass('clicked'));
-          timeoutList.push(
-              setTimeout(function() {
-                  $('#cirButton5').removeClass('clicked') 
-              }, 150)
-          )
-      } else {
-          currAns.push(6);
-          ($('#cirButton6').addClass('clicked'));
-          timeoutList.push(
-              setTimeout(function() {
-                  $('#cirButton6').removeClass('clicked') 
-              }, 150)
-          )
-      }
+        currAns.push(1);
+        ($('#cirButton1').addClass('clicked'));
+        ($('#border1').addClass('clicked'));
+        ($('#cirButton1').addClass('hoverDisabled'));
+        timeoutList.push(
+            setTimeout(function() {
+                $('#cirButton1').removeClass('clicked');
+                $('#border1').removeClass('clicked');
+            }, 150)
+        )
+    } else if (event.currentTarget.classList.contains('2')) {
+        currAns.push(2);
+        ($('#cirButton2').addClass('clicked'));
+        ($('#border2').addClass('clicked'));
+        ($('#cirButton2').addClass('hoverDisabled'));
+        timeoutList.push(
+            setTimeout(function() {
+                $('#cirButton2').removeClass('clicked');
+                $('#border2').removeClass('clicked');
+            }, 150)
+        )
+    } else if (event.currentTarget.classList.contains('3')) {
+        currAns.push(3);
+        ($('#cirButton3').addClass('clicked'));
+        ($('#border3').addClass('clicked'));
+        ($('#cirButton3').addClass('hoverDisabled'));
+        timeoutList.push(
+            setTimeout(function() {
+                $('#cirButton3').removeClass('clicked')
+                $('#border3').removeClass('clicked');
+            }, 150)
+        )
+    } else if (event.currentTarget.classList.contains('4')) { 
+        currAns.push(4);
+        ($('#cirButton4').addClass('clicked'));
+        ($('#border4').addClass('clicked'));
+        ($('#cirButton4').addClass('hoverDisabled'));
+        timeoutList.push(
+            setTimeout(function() {
+                $('#cirButton4').removeClass('clicked');
+                $('#border4').removeClass('clicked');
+            }, 150)
+        )
+    } else if (event.currentTarget.classList.contains('5')) {
+        currAns.push(5);
+        ($('#cirButton5').addClass('clicked'));
+        ($('#border5').addClass('clicked'));
+        ($('#cirButton5').addClass('hoverDisabled'));
+        timeoutList.push(
+            setTimeout(function() {
+                $('#cirButton5').removeClass('clicked');
+                $('#border5').removeClass('clicked');
+            }, 150)
+        )
+    } else {
+        currAns.push(6);
+        ($('#cirButton6').addClass('clicked'));
+        ($('#border6').addClass('clicked'));
+        ($('#cirButton6').addClass('hoverDisabled'));
+        timeoutList.push(
+            setTimeout(function() {
+                $('#cirButton6').removeClass('clicked');
+                $('#border6').removeClass('clicked');
+            }, 150)
+        )
+    }
 
       if (currAns.length === spanSizeAndDirection[currTrial]) {
+          $('.cirButton').removeClass('hoverDisabled'); 
+          $('.cirButton').addClass('hoverDisabled'); 
           cueData(currSeq, cueColor, cueBorderColor, cueStartTime, cueEndTime);
           probeData(probeNumber, allProbe, restColor, restBorderColor, probeShape, probeParams, radius, probeAngularPosition);
           answerData(currAns, answerTimePerTrial);
           timeoutList.push(
               setTimeout(function() {
-                  $('.cirButton').removeClass('clicked');
-                  $('.cirButton').addClass('hoverDisabled'); 
+                  $('.cirButton').removeClass('clicked'); 
               }, 150)
           )
 
@@ -188,7 +211,7 @@ function SSGame(props) {
           if (equalCheck(currAns, currSeq)) {
               $('#goSignal').html("ถูก");
               setProgressValue(progressValue + 1);
-              combo2Sound();
+            //   combo2Sound();
               currSeq = [];
               genSeq = [];
               currTrial++;
@@ -223,7 +246,7 @@ function SSGame(props) {
               )
           } else {
               $('#goSignal').html("ผิด");
-              losingSound();
+            //   losingSound();
               struggleTime = true;
               currSeq = [];
               checkAns.push(0);
@@ -345,10 +368,8 @@ function SSGame(props) {
   }
 
   function createPseudorandomStimuli() {
-    let allSpanSizeRange = [2, 3, 4, 5, 6, 7, 8];
-    let trialsPerSpanSize = 8; 
-    // let allSpanSizeRange = [2, 3];
-    // let trialsPerSpanSize = 2;
+    let allSpanSizeRange = [2, 3, 4, 5];
+    let trialsPerSpanSize = 10;  
     let sequenceDirection = 1; // forward only
     let trialsPerDirection = trialsPerSpanSize / sequenceDirection; 
 
@@ -360,22 +381,36 @@ function SSGame(props) {
         }
     }
     Shuffle(spanSizeAndDirection);
-        trialNumber = trialsPerSpanSize * allSpanSizeRange.length;
+    trialNumber = trialsPerSpanSize * allSpanSizeRange.length;
     }
 
-  function seqGenerator() {
-      if (currTrial !== trialNumber) {
-          allSpan.push(spanSizeAndDirection[currTrial]);
-          if (genSeq.length === 0) {
-              for (let i = 0; i < spanSizeAndDirection[currTrial]; i++) {
-                  let thisSeq = Math.floor(Math.random() * probeNumber) + 1;
-                  genSeq.push(thisSeq);
-              }
-          }
+    function colorGenerator() {
+        if (parseInt(props.userId) % 2 == 0){ // check if userId was even or odd number
+            // even number section
+            // forward : blue
+            document.documentElement.style.setProperty('--cue-color', '#0072ff'); 
+            document.documentElement.style.setProperty('--cue-border-color', '#0072ff'); 
+        } else {
+            // odd number section
+            // forward : yellow
+            document.documentElement.style.setProperty('--cue-color', '#ffc837'); 
+            document.documentElement.style.setProperty('--cue-border-color', '#ffc837'); 
+        }
+        cueColor = getComputedStyle(document.documentElement).getPropertyValue('--cue-color').trim();
+        cueBorderColor = getComputedStyle(document.documentElement).getPropertyValue('--cue-border-color').trim();
+    }
 
-          timeIntervalPerTrial();
-      } 
-  }
+    function seqGenerator() {
+        if (currTrial !== trialNumber) {
+            allSpan.push(spanSizeAndDirection[currTrial]);
+            if (genSeq.length === 0) {
+                let trialSeqGenerator: number[] = samplingFromList(allProbe, spanSizeAndDirection[currTrial], false);
+                genSeq = trialSeqGenerator;
+  
+                timeIntervalPerTrial();
+            }
+        } 
+    }
 
   function timeIntervalPerTrial() {
     $('.cirButton').addClass('hoverDisabled');
@@ -405,6 +440,7 @@ function SSGame(props) {
         setTimeout(function() {
             $('#goSignal').html("");
             $('#goSignal').html("ตามลำดับ");
+            colorGenerator();
         }, 3100) 
     )
 
@@ -715,8 +751,6 @@ function SSGame(props) {
             "metricData" : metricDataResult
           }
       }
-      console.log(postEntryResult);
-    //   console.log(JSON.stringify(postEntryResult));
       return postEntryResult;
   }
 
@@ -728,9 +762,19 @@ function SSGame(props) {
               scorePerTrial.push(allSpan[correctIndex] * spanMultiplier);
               summaryCorrect++;
               spanInCorrectAns.push(allSpan[correctIndex]);
+              hitRt.push(allReactionTrial[correctIndex]);
           } 
       }
       
+      if (hitRt.length !== 0){
+
+        sumHitRt = hitRt.reduce((sum, time) => {
+          return sum + time;
+          });
+      }
+
+      avgHitRt = sumHitRt / 1000 / hitRt.length;
+
       if (scorePerTrial.length !== 0){
           sumScores = scorePerTrial.reduce((sum, score) => {
             return sum + score;
@@ -773,7 +817,7 @@ function SSGame(props) {
         </div>
         {isItDone ? 
         <div>
-            {<ScoreSummaryOverlay sumScores={sumScores} refreshPage={refreshPage} backToLandingPage={backToLandingPage}/>}
+            {<ScoreSummaryOverlay accuracy={(summaryCorrect / trialNumber) * 100} avgHitRt={avgHitRt} refreshPage={refreshPage} backToLandingPage={backToLandingPage}/>}
         </div>
         : null}
         {<RotateAlert />}
