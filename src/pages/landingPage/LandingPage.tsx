@@ -9,11 +9,11 @@ import GNGImage from  '../../assets/png/gonogo-img.png'
 
 const gameInfos = [
   {
-    name: 'จำจด กดตาม',
-    title: 'Spatial Span',
-    domain: 'ความจำ',
-    gameUri: 'spatial-span',
-    image: `${SSImage}`,
+    name: 'เขียวไป แดงหยุด',
+    title: 'Go-Nogo',
+    domain: 'สมาธิ',
+    gameUri: 'go-nogo',
+    image: `${GNGImage}`,
   },
   {
     name: 'หากันจนเจอ',
@@ -23,12 +23,12 @@ const gameInfos = [
     image: `${CJSImage}`,
   },
   {
-    name: 'เขียวไป แดงหยุด',
-    title: 'Go-Nogo',
-    domain: 'สมาธิ',
-    gameUri: 'go-nogo',
-    image: `${GNGImage}`,
-  },
+    name: 'จำจด กดตาม',
+    title: 'Spatial Span',
+    domain: 'ความจำ',
+    gameUri: 'spatial-span',
+    image: `${SSImage}`,
+  }
 ]
 
 function LandingPage() {

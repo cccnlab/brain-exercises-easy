@@ -277,6 +277,7 @@
 .tutorial {
     background: rgba(0, 0, 0, 0.65);
     position: absolute;
+    height: calc(var(--vh, 1vh) * 100);
     left: 0%;
     right: 0%;
     top: 0%;

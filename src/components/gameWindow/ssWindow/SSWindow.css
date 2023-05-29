@@ -67,32 +67,32 @@
 
 #cirButton1 {
     left: calc(50% - var(--cir-base-unit)/2.0);
-    top: calc(50% - var(--cir-span-radius) - var(--cir-base-unit)/2.0);
+    top: calc(47% - var(--cir-span-radius) - var(--cir-base-unit)/2.0);
 }
 
 #cirButton2 {
     left: calc(50% + var(--cir-span-radius)*var(--cos30) - var(--cir-base-unit)/2.0);
-    top: calc(50% - var(--cir-span-radius)*var(--sin30) - var(--cir-base-unit)/2.0);
+    top: calc(47% - var(--cir-span-radius)*var(--sin30) - var(--cir-base-unit)/2.0);
 }
 
 #cirButton3 {
     left: calc(50% + var(--cir-span-radius)*var(--cos30) - var(--cir-base-unit)/2.0);
-    top: calc(50% + var(--cir-span-radius)*var(--sin30) - var(--cir-base-unit)/2.0);
+    top: calc(47% + var(--cir-span-radius)*var(--sin30) - var(--cir-base-unit)/2.0);
 }
 
 #cirButton4 {
     left: calc(50% - var(--cir-base-unit)/2.0);
-    top: calc(50% + var(--cir-span-radius) - var(--cir-base-unit)/2.0);
+    top: calc(47% + var(--cir-span-radius) - var(--cir-base-unit)/2.0);
 }
 
 #cirButton5 {
     left: calc(50% - var(--cir-span-radius)*var(--cos30) - var(--cir-base-unit)/2.0);
-    top: calc(50% + var(--cir-span-radius)*var(--sin30) - var(--cir-base-unit)/2.0);
+    top: calc(47% + var(--cir-span-radius)*var(--sin30) - var(--cir-base-unit)/2.0);
 }
 
 #cirButton6 {
     left: calc(50% - var(--cir-span-radius)*var(--cos30) - var(--cir-base-unit)/2.0);
-    top: calc(50% - var(--cir-span-radius)*var(--sin30) - var(--cir-base-unit)/2.0);
+    top: calc(47% - var(--cir-span-radius)*var(--sin30) - var(--cir-base-unit)/2.0);
 }
 
 .cirButtonBorder.clicked {
