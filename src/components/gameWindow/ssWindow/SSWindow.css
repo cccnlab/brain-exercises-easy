@@ -121,7 +121,7 @@
 #goSignal {
     border-radius: 50%;
     left: calc(50% - calc(var(--this-sum) / 14.35) / 2);
-    top: calc(50% - var(--cir-span-radius) + (calc(var(--this-sum) / 18.98)));
+    top: calc(47% - var(--cir-span-radius) + (calc(var(--this-sum) / 18.98)));
     line-height: calc(var(--this-sum) / 34.28);
     font-size: calc(var(--this-sum) / 36.29);
     font-weight: 400;
