@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/brain-exercises-easy/static/css/main.d7566552.css",
+    "main.css": "/brain-exercises-easy/static/css/main.1516f013.css",
     "main.js": "/brain-exercises-easy/static/js/main.54d1240a.js",
     "static/js/845.1233b4b2.chunk.js": "/brain-exercises-easy/static/js/845.1233b4b2.chunk.js",
     "static/js/787.52ac0c76.chunk.js": "/brain-exercises-easy/static/js/787.52ac0c76.chunk.js",
@@ -17,13 +17,13 @@
     "static/media/losingStreak.mp3": "/brain-exercises-easy/static/media/losingStreak.3e9f53afed48af7cc022.mp3",
     "static/media/rotate-phone.svg": "/brain-exercises-easy/static/media/rotate-phone.6172f756fbd62559e2be4c10385ec685.svg",
     "index.html": "/brain-exercises-easy/index.html",
-    "main.d7566552.css.map": "/brain-exercises-easy/static/css/main.d7566552.css.map",
+    "main.1516f013.css.map": "/brain-exercises-easy/static/css/main.1516f013.css.map",
     "main.54d1240a.js.map": "/brain-exercises-easy/static/js/main.54d1240a.js.map",
     "845.1233b4b2.chunk.js.map": "/brain-exercises-easy/static/js/845.1233b4b2.chunk.js.map",
     "787.52ac0c76.chunk.js.map": "/brain-exercises-easy/static/js/787.52ac0c76.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d7566552.css",
+    "static/css/main.1516f013.css",
     "static/js/main.54d1240a.js"
   ]
 }
