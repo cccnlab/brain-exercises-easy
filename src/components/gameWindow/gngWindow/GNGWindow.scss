@@ -13,6 +13,7 @@
 }
 
 button#TokButton {
+    -webkit-tap-highlight-color: transparent;
     border: 0;
     width: var(--inner-button);
     height: var(--inner-button);

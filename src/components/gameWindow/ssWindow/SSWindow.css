@@ -15,6 +15,7 @@
 }
 
 .cirButton {
+    -webkit-tap-highlight-color: transparent;
     width: var(--cir-base-unit);
     height: var(--cir-base-unit);
     line-height: var(--cir-base-unit);
