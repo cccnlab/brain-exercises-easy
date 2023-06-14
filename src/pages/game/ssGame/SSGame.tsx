@@ -426,14 +426,14 @@ function SSGame(props) {
         setTimeout(function() {
             $('#goSignal').html("");
             $('#goSignal').html("2");
-        }, 1100)
+        }, 400)
     )
 
     timeoutList.push(
         setTimeout(function() {
             $('#goSignal').html("");
             $('#goSignal').html("1");
-        }, 2100) 
+        }, 700) 
     )
 
     timeoutList.push(
@@ -441,13 +441,13 @@ function SSGame(props) {
             $('#goSignal').html("");
             $('#goSignal').html("ตามลำดับ");
             colorGenerator();
-        }, 3100) 
+        }, 1000) 
     )
 
     timeoutList.push(
         setTimeout(function() {
             popCircleButton();
-        }, 4100) 
+        }, 2000) 
     )
 }
   
@@ -767,10 +767,11 @@ function SSGame(props) {
       }
       
       if (hitRt.length !== 0){
-
         sumHitRt = hitRt.reduce((sum, time) => {
           return sum + time;
           });
+      } else {
+        hitRt.push(0);
       }
 
       avgHitRt = sumHitRt / 1000 / hitRt.length;

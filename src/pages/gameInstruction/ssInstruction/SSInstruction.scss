@@ -1,3 +1,9 @@
+:root {
+    --instruction-text-color: #393939;
+    --next-button-color: #297AF4;
+    --back-button-color: #6C6C6C;
+}
+
 #SSInstructionHeader {
     height: 14.22vh;
     height: calc(var(--vh, 1vh) * 14.22);
@@ -107,6 +113,15 @@
     top: calc(50% - var(--cir-span-radius)*var(--sin30) - var(--cir-base-unit)/2.0);
 }
 
+.cirButtonInstructionBorder.clicked {
+    width: var(--border-base-unit);
+    height: var(--border-base-unit);
+    border-radius: 50%;
+    position: absolute;
+    top: calc(var(--this-sum) / -80);
+    left: calc(var(--this-sum) / -80);
+}
+
 .signalInstruction {
     position: absolute;
     margin: 0;
@@ -130,6 +145,7 @@
 }
 
 .cirBtnContainerInstruction {
+    -webkit-tap-highlight-color: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -266,12 +282,64 @@
     }
 }
 
-.onHide {
-    display: none;
+.cir2Clicked {
+    animation: cir2Clicked 4s linear normal;
 }
 
-.onDisable {
-    color: #959595;
+@keyframes cir2Clicked {
+    0% {
+        border: calc(var(--this-sum) / 154.25) solid #FFFFFF;
+    }
+    16% {
+        border: calc(var(--this-sum) / 154.25) solid #FFFFFF;
+    }
+    32% {
+        border: calc(var(--this-sum) / 154.25) solid var(--cue-border-color);
+    }
+    48% {
+        border: calc(var(--this-sum) / 154.25) solid #FFFFFF;
+    }
+    64% {
+        border: calc(var(--this-sum) / 154.25) solid #FFFFFF;
+    }
+    80% {
+        border: calc(var(--this-sum) / 154.25) solid #FFFFFF;
+    }
+    96% {
+        border: calc(var(--this-sum) / 154.25) solid #FFFFFF;
+    }
+}
+
+.cir5Clicked {
+    animation: cir5Clicked 4s linear normal;
+}
+
+@keyframes cir5Clicked {
+    0% {
+        border: calc(var(--this-sum) / 154.25) solid #FFFFFF;
+    }
+    16% {
+        border: calc(var(--this-sum) / 154.25) solid #FFFFFF;
+    }
+    32% {
+        border: calc(var(--this-sum) / 154.25) solid #FFFFFF;
+    }
+    48% {
+        border: calc(var(--this-sum) / 154.25) solid #FFFFFF;
+    }
+    64% {
+        border: calc(var(--this-sum) / 154.25) solid #FFFFFF;
+    }
+    80% {
+        border: calc(var(--this-sum) / 154.25) solid var(--cue-border-color);
+    }
+    96% {
+        border: calc(var(--this-sum) / 154.25) solid #FFFFFF;
+    }
+}
+
+.onHide {
+    display: none;
 }
 
 .tutorial {
@@ -399,6 +467,7 @@
 }
 
 .instructionBtnNext, .instructionBtnBack {
+    -webkit-tap-highlight-color: transparent;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -429,11 +498,11 @@
 }
 
 .nextInstruction {
-    color: #297AF4;
+    color: var(--next-button-color);
 }
 
 .backInstruction {
-    color: #6C6C6C;
+    color: var(--back-button-color);
 }
 
 

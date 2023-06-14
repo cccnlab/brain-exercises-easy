@@ -63,7 +63,7 @@ function App() {
             <Route path="/" element={< ParticipantForm setUserId={setUserId} setUserPhone={setUserPhone}/>}></Route>
             <Route path="/landing" element={< LandingPage />}></Route>
             <Route path="/spatial-span" element={<SSLanding />}></Route>
-            <Route path="/spatial-span/instruction" element={<SSInstruction />}></Route>
+            <Route path="/spatial-span/instruction" element={<SSInstruction userId={userId}/>}></Route>
             <Route path="/spatial-span/trial" element={<SSGame userId={userId} userPhone={userPhone}/>}></Route>
             <Route path="/conjunction-search" element={<CJSLanding />}></Route>
             <Route path="/conjunction-search/instruction" element={<CJSInstruction />}></Route>
