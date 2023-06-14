@@ -21,7 +21,7 @@ let progressBarElement: HTMLProgressElement;
 let flashDuration = 300;
 let baseFlashInterval = 600;
 let correctCountForCombo = 0;
-let tempEventGoNoGo: number[] = [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2];
+let tempEventGoNoGo: number[] = [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 Shuffle(tempEventGoNoGo);
 let eventId = [0];
 eventId = eventId.concat(tempEventGoNoGo);
@@ -130,7 +130,7 @@ function GNGInstruction(props) {
     }
 
     function instructionControl() {
-        if (tutorialStep === 11 && tutorialTest === 'wrong') {
+        if (tutorialStep === 9 && tutorialTest === 'wrong') {
             setTutorialTest('');
             setTutorialStep(tutorialStep - 1);
             setTutorialHide(true);
@@ -143,7 +143,7 @@ function GNGInstruction(props) {
             }, 100);
         } else {
             setTutorialStep(tutorialStep + 1);
-            if (tutorialStep !== 4 && tutorialStep !== 9) {
+            if (tutorialStep !== 4 && tutorialStep !== 7) {
                 setTutorialHide(false);
             } else {
                 setTutorialHide(true);
@@ -158,7 +158,7 @@ function GNGInstruction(props) {
             setCircleBtnClass("");
         }
 
-        if (tutorialStep === 9) {
+        if (tutorialStep === 7) {
             popColor(flashDuration, baseFlashInterval, eventId);
         }
     }
@@ -178,7 +178,7 @@ function GNGInstruction(props) {
             instructionControl();
         }
 
-        if (tutorialStep === 10) {
+        if (tutorialStep === 8) {
             if (shouldClick === true) {
                 setShouldClick(false);
                 if (correctCountForCombo === 3) {
@@ -205,7 +205,7 @@ function GNGInstruction(props) {
                 // losingSound();
                 setProgressValue(30);
                 correctCountForCombo = 0;
-                if (currentColor === "red") {
+                if (currentColor === "white") {
                     setTutorialTest('wrong');
                     instructionControl();
                     clearAllTimeout();
@@ -222,18 +222,18 @@ function GNGInstruction(props) {
         <div className='card' style={{ alignItems: 'center', placeContent: 'center' }}>
             {tutorialHide === false ?
                 <div className="tutorial">
-                        <div className={'progressBarContainerInstruction' + (tutorialStep === 11 && tutorialTest === 'right' ? '' : ' onHide')}>
+                        <div className={'progressBarContainerInstruction' + (tutorialStep === 9 && tutorialTest === 'right' ? '' : ' onHide')}>
                             <img src={instructionProgressbar} alt="progressbar" id="instructionProgressbar"></img>       
                         </div>
-                    <div className={'instructionContainer' + (tutorialStep === 12 ? ' centered': '')}>
-                        <div className={'TokBtnContainerInstruction' + (tutorialStep === 2 || tutorialStep === 3 || tutorialStep === 7 || tutorialStep === 8 || tutorialStep === 11 && tutorialTest === 'wrong'  ? '' : ' onHide')}>
+                    <div className={'instructionContainer' + (tutorialStep === 10 ? ' centered': '')}>
+                        <div className={'TokBtnContainerInstruction' + (tutorialStep === 2 || tutorialStep === 3 || tutorialStep === 8 || tutorialStep === 11 && tutorialTest === 'wrong'  ? '' : ' onHide')}>
                             {tutorialStep === 2 ? <button id="TokButtonInstruction" className={`tok-btn `}></button> : null}
                             {tutorialStep === 3 ? <button id="TokButtonInstruction" className={`tok-btn green`}></button> : null}
-                            {tutorialStep === 7 || tutorialStep === 8 || tutorialStep === 11 ? <button id="TokButtonInstruction" className={`tok-btn red`}></button> : null}
+                            {/* {tutorialStep === 7 || tutorialStep === 8 || tutorialStep === 11 ? <button id="TokButtonInstruction" className={`tok-btn red`}></button> : null} */}
                         </div>
                         <div className="instructionPerson">
-                            <img src={instructionPerson} alt="an instruction guy" className={'personStart' + (tutorialStep < 12 ? '': ' onHide')}></img>
-                            <img src={instructionFinished} alt="an instruction guy" className={'personEnd' + (tutorialStep === 12 ? '': ' onHide')}></img>
+                            <img src={instructionPerson} alt="an instruction guy" className={'personStart' + (tutorialStep < 10 ? '': ' onHide')}></img>
+                            <img src={instructionFinished} alt="an instruction guy" className={'personEnd' + (tutorialStep === 10 ? '': ' onHide')}></img>
                         </div>
                         <div className="instructionBox">
                             <div className= "instructionText">
@@ -242,21 +242,19 @@ function GNGInstruction(props) {
                                 {tutorialStep === 3 ? <p>เมื่อสัญญาณไฟ <b style={{ color : `#26A445`}}>สีเขียว</b> สว่างขึ้น <br></br>ให้คุณ <b>กดปุ่มตรงกลางให้เร็วที่สุด</b></p> : null}
                                 {tutorialStep === 4 ? <p>เรามาลองเล่นกันดูครับ </p> : null}
                                 {tutorialStep === 6 ? <p>สุดยอดไปเลย คุณทำได้ดีมาก! </p> : null}
-                                {tutorialStep === 7 ? <p>เพื่อเพิ่มความท้าทาย เกมนี้จะมีไฟ <br></br><b style={{ color : `#E52D27`}}>สีแดง</b> ที่คุณจะต้องระวัง</p> : null}
-                                {tutorialStep === 8 ? <p>ถ้า <b style={{ color : `#E52D27`}}>สีแดง</b> สว่างขึ้น <b>ไม่ต้องกดอะไร</b> <br></br><b>และรอสัญญาณไฟอันต่อไป</b></p> : null}
-                                {tutorialStep === 9 ? <p>เรามาลองเล่นกันดูครับ <br></br>รอบนี้จะมีไฟ <b style={{ color : `#26A445`}}>สีเขียว</b> และ <b style={{ color : `#E52D27`}}>สีแดง</b></p> : null}
-                                {tutorialStep === 11 && tutorialTest === 'wrong' ? <p>อย่าลืมนะครับ ว่าถ้า <b style={{ color : `#E52D27`}}>สีแดง</b> <br></br>สว่างขึ้น <b>ไม่ต้องกดอะไร</b> <br></br><b>และรอสัญญาณไฟอันต่อไป</b></p> : null}
-                                {tutorialStep === 11 && tutorialTest === 'right' ? <p>เมื่อแถบนี้เต็ม เกมก็จะจบลง</p> : null}
-                                {tutorialStep === 12 ? <p>ยินดีด้วย! คุณได้ผ่านการฝึกเล่น <br></br>เกม <b>'เขียวไป แดงหยุด'</b> แล้ว</p> : null}
+                                {tutorialStep === 7 ? <p>คราวนี้ลองกดให้ถูกต้อง <br></br>ติดต่อกัน 3 ครั้งนะครับ</p> : null}
+                                {tutorialStep === 9 && tutorialTest === 'wrong' ? <p>อย่าลืมนะครับ <br></br>หากยัง<b>ไม่มีสัญญาณไฟสว่างขึ้น</b> <br></br><b>ไม่ต้องกดอะไร</b><b>และรอสัญญาณไฟอันต่อไป</b></p> : null}
+                                {tutorialStep === 9 && tutorialTest === 'right' ? <p>เมื่อแถบนี้เต็ม เกมก็จะจบลง</p> : null}
+                                {tutorialStep === 10 ? <p>ยินดีด้วย! คุณได้ผ่านการฝึกเล่น <br></br>เกม <b>'เขียวไป แดงหยุด'</b> แล้ว</p> : null}
                             </div>
                             <div className="instructionControl">
                                 <div className="instructionBtnBack">
-                                {tutorialStep === 1 || tutorialStep === 6 || tutorialStep === 11 ? null : <button className="backInstruction" onMouseDown={() => {setTutorialStep(tutorialStep - 1)}}>{`< ย้อนกลับ`}</button>}
+                                {tutorialStep === 1 || tutorialStep === 6 || tutorialStep === 9 ? null : <button className="backInstruction" onMouseDown={() => {setTutorialStep(tutorialStep - 1)}}>{`< ย้อนกลับ`}</button>}
                                 </div>
                                 <div className="instructionBtnNext">
-                                {tutorialStep === 11 && tutorialTest === 'wrong' ? <button className="nextInstruction" onMouseDown={() => {instructionControl()}}>{`ลองอีกครั้ง >`}</button> : null}
-                                {tutorialStep < 12 ?  
-                                    <button className={'nextInstruction' + (tutorialTest === 'wrong' ? ' onHide' : '')} onMouseDown={() => {instructionControl()}}>{tutorialStep === 4 || tutorialStep === 9 ? `ลองเล่น >` : `ถัดไป >`}</button> :
+                                {tutorialStep === 9 && tutorialTest === 'wrong' ? <button className="nextInstruction" onMouseDown={() => {instructionControl()}}>{`ลองอีกครั้ง >`}</button> : null}
+                                {tutorialStep < 10 ?  
+                                    <button className={'nextInstruction' + (tutorialTest === 'wrong' ? ' onHide' : '')} onMouseDown={() => {instructionControl()}}>{tutorialStep === 4 || tutorialStep === 7 ? `ลองเล่น >` : `ถัดไป >`}</button> :
                                     <button className="nextInstruction" onMouseDown={() => {backToGNGLanding()}}>{`กลับเมนูเกม >`}</button> }    
                                 </div>
                             </div>
