@@ -104,7 +104,7 @@ function GNGGame(props) {
     const [losingSound] = useSound(losingSoundSrc);
     const [progressValue, setProgressValue] = useState(0);
     const [isItDone, setIsItDone] = useState(false);
-    const [hardGNGDone, setHardGNGDone] = useState(false);
+    const [easyGNGDone, setEasyGNGDone] = useState(false);
     let timeoutList: any[] = [];
 
     useEffect(() => {
@@ -133,7 +133,7 @@ function GNGGame(props) {
         comboCount = [];
         correctCountForCombo = 0;
         correctRejectionCount = noChangeInOnlyGo + noChangeInGoNoGo;
-        falseSignalRejectionCount = noGoInGoNoGo;
+        // falseSignalRejectionCount = noGoInGoNoGo;
     }
 
     function gameLogicScheme(trialNumber, changeRate, noGoRate, onlyGoBlockRatio, goNoGoBlockRatio, flashDuration, baseFlashInterval, jitterBase, jitterAmplitude, timeOffset) {
@@ -488,9 +488,13 @@ function GNGGame(props) {
             scorePerTrial.push(rtScore);
         }
 
-        sumHitRt = hitRt.reduce((sum, score) => {
-            return sum + score;
-        });
+        if (hitRt.length !== 0){
+            sumHitRt = hitRt.reduce((sum, score) => {
+                return sum + score;
+            });
+        } else {
+            hitRt.push(0);
+        }
 
         avgHitRt = sumHitRt / 1000 / hitRt.length;
         
@@ -531,8 +535,8 @@ function GNGGame(props) {
                     comboCount.push(4);
                     // combo3Sound();
                 }
+                hitCount++;
             }
-            hitCount++;
         } else {
             if (falseClicked === false) {
                 correctCountForCombo = 0;
@@ -556,7 +560,7 @@ function GNGGame(props) {
 
     function Done() {
         setIsItDone(true);
-        setHardGNGDone(true);
+        setEasyGNGDone(true);
         score = Math.max(10000, Math.round(total));
         cueDataResult = cueData(allColorPop, allTimeEvent);
         userInteractionDataResult = userInteractionData(allInteractionEvent, allClickEvent);
@@ -617,7 +621,7 @@ function GNGGame(props) {
         </div>
         {isItDone ? 
         <div>
-            {<ScoreSummaryOverlay accuracy={((hitCount + correctRejectionCount + falseSignalRejectionCount) / trialNumber) * 100}  falseHit={(falseHitCount / allNoGo) * 100} avgHitRt={avgHitRt} hardGNGDone={hardGNGDone} refreshPage={refreshPage} backToLandingPage={backToLandingPage}/>}
+            {<ScoreSummaryOverlay accuracy={((hitCount + correctRejectionCount) / trialNumber) * 100}  falseHit={(falseHitCount / allNoGo) * 100} easyGNGDone={easyGNGDone} avgHitRt={avgHitRt} refreshPage={refreshPage} backToLandingPage={backToLandingPage}/>}
         </div>
         : null}
         {<RotateAlert />}
