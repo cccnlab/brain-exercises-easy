@@ -21,7 +21,7 @@ let myCanvas: HTMLCanvasElement;
 let canvasContext: CanvasRenderingContext2D;
 let progressBarElement: HTMLProgressElement;
 let trialNumber = 100;
-let curTrial = 0;
+let currTrial = 0;
 let backgroundColor = '#E5E5E5';
 let stimulusColor = ['#0072FF', '#FFC837'];
 let searchTargetList: any[][] = [
@@ -58,10 +58,14 @@ let posId: number[] = [];
 let maxSS = Math.floor((XblockNumber * YblockNumber - 1) / 2);
 let ceilingSS = 0;
 let currSS = 2;
+let allSetsizeAndTarget: number[][] = [];
 let change = NaN;
 let shapeRand = [0, 1];
 let ori: number[]
 let col: string[]
+let thatRight: string = '';
+let responseText: string = '';
+let timeoutList: any[] = []; 
 let oris: number[] = [];
 let cols: number[] = [];
 let count = 0;
@@ -80,25 +84,34 @@ function CJSInstruction(props) {
     const [losingSound] = useSound(losingSoundSrc);
     const [searchTarget, setSearchTarget] = useState<{ shape: number, col: number }>();
     const [progressValue, setProgressValue] = useState(15);
+    const [disabledButton, setDisabledButton] = useState(false);
 
     useEffect(() => {
         initiateData();
         setSearchTarget({ shape: (Math.random() > 0.5 ? 1 : 0), col: (Math.random() > 0.5 ? 1 : 0) });
+        createPseudorandomStimuli();
+
+        return() => {
+            timeoutList.forEach(tm => {
+                clearTimeout(tm);
+            })
+        };
     }, [])
 
     useEffect(() => {
         if (searchTarget) {
             oris = [];
-            for (let j = 0; j < maxSS; j++) { oris.push(0); oris.push(1) };
             cols = [];
-            for (let k = 0; k < maxSS; k++) { cols.push(0); cols.push(1) };
+            for (let j = 0; j < maxSS; j++) { oris.push(0); oris.push(0)};
             if (searchTarget.shape === 1) {
-                shapeRand = [1, 0];
+                shapeRand = [1];
             } else {
-                shapeRand = [0, 1];
+                shapeRand = [0];
             }
             if (searchTarget.col === 1) {
-                for (let j = 0; j < cols.length; j++) { cols[j] = 1 - cols[j] };
+                for (let k = 0; k < maxSS; k++) { cols.push(0); cols.push(0)};
+            } else {
+                for (let k = 0; k < maxSS; k++) { cols.push(1); cols.push(1)};
             }
             createTargetCanvas();
             createCanvas();
@@ -109,7 +122,7 @@ function CJSInstruction(props) {
         currSS = 2;
         ceilingSS = 0;
         count = 0;
-        curTrial = 0;
+        currTrial = 0;
         Xtemps = [];
         Xs = [];
         Ytemps = [];
@@ -139,6 +152,23 @@ function CJSInstruction(props) {
         }
     }
 
+    function createPseudorandomStimuli() {
+        allSetsizeAndTarget = [];
+        let allSetsizeRange = [2, 6, 12];
+        let trialsPerSetsize = 8; 
+        let targetCondition = 2; // target appear or disappear
+        let trialsPerCondition = trialsPerSetsize / targetCondition; 
+
+        for (let iSetsize = 0; iSetsize < allSetsizeRange.length; iSetsize++) {
+            for (let iRep = 0; iRep < trialsPerCondition; iRep++) {
+                for (let iTarget = 0; iTarget < targetCondition; iTarget++) {
+                    allSetsizeAndTarget.push([allSetsizeRange[iSetsize],iTarget]);
+                }
+            }
+        }
+        Shuffle(allSetsizeAndTarget); 
+    }
+
     function createCanvas() {
         myCanvas = document.getElementById("myCanvas") as HTMLCanvasElement;
         canvasContext = myCanvas.getContext("2d") as CanvasRenderingContext2D;
@@ -163,10 +193,11 @@ function CJSInstruction(props) {
         }
 
         myCanvas.hidden = false;
-        initialT(0, currSS);
+        initialT(0, allSetsizeAndTarget[currTrial][0]);
     }
 
     function initialT(_waittime, SS) {
+        setDisabledButton(false);
         if (!ceilingSS) {
             ceilingSS = SS + 1;
         };
@@ -178,19 +209,22 @@ function CJSInstruction(props) {
         vismem.drawObjects(canvasContext, vismem.objects);
     }
 
-    function shuffleSS(setsize) {
+    function shuffleSS(setSize) {
         Shuffle(posId);
-        X = []; for (let ix = 0; ix < setsize + 1; ix++) { X.push(Xs[posId[ix]]) };
-        Y = []; for (let iy = 0; iy < setsize + 1; iy++) { Y.push(Ys[posId[iy]]) };
-        ori = []; for (let j = 0; j < setsize; j++) { ori.push(oris[j]) };
-        col = []; for (let j = 0; j < setsize; j++) { col.push(stimulusColor[cols[j]]) };
-        // add the target or not
-        if (Math.random() > 0.5) {
-            ori.push(oris[setsize]);
-            col.push(stimulusColor[cols[setsize]]);
+        X = []; for (let ix = 0; ix < setSize + 1; ix++) { X.push(Xs[posId[ix]]) };
+        Y = []; for (let iy = 0; iy < setSize + 1; iy++) { Y.push(Ys[posId[iy]]) };
+        ori = []; for (let j = 0; j < setSize; j++) { ori.push(oris[j]) };
+        col = []; for (let j = 0; j < setSize; j++) { col.push(stimulusColor[cols[j]]) };
+        // feature search
+        // check if the target appears or disappears
+        if (allSetsizeAndTarget[currTrial][1] === 0) {
+            // disappears
+            ori.push(oris[setSize]);
+            col.push(stimulusColor[cols[setSize]]);
         } else {
-            ori.push(1 - oris[setsize]);
-            col.push(stimulusColor[cols[setsize]]);
+            // appears
+            ori.push(1 - oris[setSize]);
+            col.push(stimulusColor[1 - cols[setSize]]);
         }
     }
 
@@ -229,12 +263,14 @@ function CJSInstruction(props) {
         if (change === foo) {
             if (tutorialTest === '') {
                 setTutorialTest('right');
+                thatRight = 'right';
             }
             // combo2Sound();
             trackRecord = trackRecord + 1;
         } else {
             if (tutorialTest === '') {
                 setTutorialTest('wrong');
+                thatRight = 'wrong';
             }
             // losingSound();
             trackRecord = 0;
@@ -256,25 +292,62 @@ function CJSInstruction(props) {
         makeBackground(backgroundColor)
         vismem.drawObjects(canvasContext, vismem.objects);
         if (trackRecord >= NupNdown) {
-            if (currSS < maxSS * 2 - 2) {
-                currSS = currSS + 1;
-                ceilingSS = currSS + 1;
+            if (allSetsizeAndTarget[currTrial][0] < maxSS * 2 - 2) {
+                // currSS = currSS + 1;
+                ceilingSS = allSetsizeAndTarget[currTrial][0] + 1;
             } else {
-                ceilingSS = currSS + 1;
+                ceilingSS = allSetsizeAndTarget[currTrial][0] + 1;
             }
         }
 
         // different from conjs-trial
-        if (trackRecord === 0 && currSS > 2) {
-            currSS = currSS;
+        if (trackRecord === 0 && allSetsizeAndTarget[currTrial][0] > 2) {
+            allSetsizeAndTarget[currTrial][0] = allSetsizeAndTarget[currTrial][0];
         }
 
-        curTrial = curTrial + 1;
-        if (curTrial >= trialNumber) {
+        currTrial = currTrial + 1;
+        if (currTrial >= trialNumber) {
             // Done();
         } else {
-            initialT(0, currSS);
+            trialConclude();
         }
+    }
+
+    function trialConclude() {
+        setDisabledButton(true);
+        vismem.erase(canvasContext);
+        vismem.clear();
+        makeBackground(backgroundColor);
+        vismem.drawObjects(canvasContext, vismem.objects);
+        
+        let textHeight = 0;
+        if (thatRight === 'wrong'){
+            responseText = "ผิด";
+            textHeight = 36;
+        } else {
+            responseText = "ถูก";
+            textHeight = 20;
+        }
+
+        canvasContext.font = "120px Sarabun"
+        let textWidth = canvasContext.measureText(responseText).width;
+        timeoutList.push(
+            setTimeout(function() {
+                let text = vismem.makeText('t', centerX - textWidth/2, centerY + textHeight, responseText, "Black", canvasContext.font);
+                vismem.drawText(canvasContext, text);
+            }, 100),
+
+            setTimeout(function() {
+                vismem.erase(canvasContext);
+                vismem.clear();
+                makeBackground(backgroundColor);
+                vismem.drawObjects(canvasContext, vismem.objects);
+            }, 600),
+
+            setTimeout(function() {
+                initialT(0, allSetsizeAndTarget[currTrial][0]);
+            }, 900)
+        )
     }
 
     function instructionControl() {
@@ -333,9 +406,9 @@ function CJSInstruction(props) {
                                 {tutorialStep === 3 && searchTarget ? <p>อย่างเช่นให้คุณหา <b>{searchTargetList[searchTarget.shape][searchTarget.col].description}</b></p> : null}
                                 {tutorialStep === 4 ? <p>หากมีให้กดปุ่ม “<b style={{ color : `#26A445`}}>มี</b>”  <br></br>หากไม่มีกดปุ่ม “<b style={{ color : `#E52D27`}}>ไม่มี</b>”</p> : null}
                                 {tutorialStep === 5 ? <p>เรามาลองเล่นกันดูครับ </p> : null}
-                                {tutorialStep === 7 && tutorialTest === 'right' ? <p>ถูกต้องครับ! <br></br><br></br>คะแนนเกมนี้ จะขึ้นอยู่กับความไว <br></br>ด้วย ดังนั้นพยายามตอบให้<b>เร็วที่สุด</b></p> : null}
+                                {tutorialStep === 7 && tutorialTest === 'right' ? <p>ถูกต้องครับ! <br></br><br></br>คะแนนเกมนี้ จะขึ้นอยู่กับ <br></br><b>ความถูกต้องและความไว</b></p> : null}
                                 {tutorialStep === 7 && tutorialTest === 'wrong' ? <p>อย่าลืมนะครับ ว่าต้องเป็น  <br></br><b>รูปทรงที่มีสีตามที่กำหนด</b></p> : null}
-                                {tutorialStep === 8 ? <p>เรามาเล่นอีกที คราวนี้ลองพยายาม<br></br> ตอบให้<b>เร็วที่สุด</b> นะครับ</p> : null}
+                                {tutorialStep === 8 ? <p>เรามาเล่นอีกที คราวนี้ลองพยายาม<br></br> ตอบให้<b>เร็วและถูกต้องมากที่สุด</b> <br></br>นะครับ</p> : null}
                                 {tutorialStep === 14 ? <p>เมื่อแถบนี้เต็ม เกมก็จะจบลง</p> : null}
                                 {tutorialStep === 15 ? <p>ยินดีด้วย! คุณได้ผ่านการฝึกเล่น <br></br>เกม <b>'หากันจนเจอ'</b> แล้ว</p> : null}
                             </div>
