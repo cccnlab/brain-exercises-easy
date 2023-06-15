@@ -261,17 +261,13 @@ function CJSInstruction(props) {
         }, 500);
 
         if (change === foo) {
-            if (tutorialTest === '') {
                 setTutorialTest('right');
                 thatRight = 'right';
-            }
             // combo2Sound();
             trackRecord = trackRecord + 1;
         } else {
-            if (tutorialTest === '') {
                 setTutorialTest('wrong');
                 thatRight = 'wrong';
-            }
             // losingSound();
             trackRecord = 0;
             setTimeout(() => {
