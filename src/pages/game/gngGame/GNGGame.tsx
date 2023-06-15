@@ -494,6 +494,7 @@ function GNGGame(props) {
             });
         } else {
             hitRt.push(0);
+            sumHitRt = hitRt;
         }
 
         avgHitRt = sumHitRt / 1000 / hitRt.length;
