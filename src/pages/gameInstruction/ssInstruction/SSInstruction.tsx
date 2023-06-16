@@ -24,7 +24,7 @@ const flashInterval: number = 750;
 // Initaial values
 let exampleSeq = [2,5];
 let tutorial1 = [5,4];
-let tutorial2 = [1,5,3];
+let tutorial2 = [1,3];
 let thisSeq: number[] = [];
 let currSeq: number[] = [];
 let currAns: number[] = [];
