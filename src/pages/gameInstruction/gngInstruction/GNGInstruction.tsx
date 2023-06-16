@@ -237,7 +237,7 @@ function GNGInstruction(props) {
                         </div>
                         <div className="instructionBox">
                             <div className= "instructionText">
-                                {tutorialStep === 1 ? <p>สวัสดีครับ วันนี้ผมจะมาสอนวิธี <br></br>เล่นเกม <b>'เขียวไป แดงหยุด'</b></p> : null}
+                                {tutorialStep === 1 ? <p>สวัสดีครับ วันนี้ผมจะมาสอนวิธี <br></br>เล่นเกม <b>'เขียวไป'</b></p> : null}
                                 {tutorialStep === 2 ? <p>เป้าหมายของเกมนี้คือการ <br></br><b>กดปุ่มบนหน้าจอให้เร็วที่สุด</b> <br></br><b>เมื่อมีสัญญาณไฟ</b></p> : null}
                                 {tutorialStep === 3 ? <p>เมื่อสัญญาณไฟ <b style={{ color : `#26A445`}}>สีเขียว</b> สว่างขึ้น <br></br>ให้คุณ <b>กดปุ่มตรงกลางให้เร็วที่สุด</b></p> : null}
                                 {tutorialStep === 4 ? <p>เรามาลองเล่นกันดูครับ </p> : null}
@@ -245,7 +245,7 @@ function GNGInstruction(props) {
                                 {tutorialStep === 7 ? <p>คราวนี้ลองกดให้ถูกต้อง <br></br>ติดต่อกัน 3 ครั้งนะครับ</p> : null}
                                 {tutorialStep === 9 && tutorialTest === 'wrong' ? <p>อย่าลืมนะครับ <br></br>หากยัง<b>ไม่มีสัญญาณไฟสว่างขึ้น</b> <br></br><b>ไม่ต้องกดอะไร</b><b>และรอสัญญาณไฟอันต่อไป</b></p> : null}
                                 {tutorialStep === 9 && tutorialTest === 'right' ? <p>เมื่อแถบนี้เต็ม เกมก็จะจบลง</p> : null}
-                                {tutorialStep === 10 ? <p>ยินดีด้วย! คุณได้ผ่านการฝึกเล่น <br></br>เกม <b>'เขียวไป แดงหยุด'</b> แล้ว</p> : null}
+                                {tutorialStep === 10 ? <p>ยินดีด้วย! คุณได้ผ่านการฝึกเล่น <br></br>เกม <b>'เขียวไป'</b> แล้ว</p> : null}
                             </div>
                             <div className="instructionControl">
                                 <div className="instructionBtnBack">

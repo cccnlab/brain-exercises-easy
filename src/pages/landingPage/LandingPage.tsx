@@ -9,7 +9,7 @@ import GNGImage from  '../../assets/png/gonogo-img.png'
 
 const gameInfos = [
   {
-    name: 'เขียวไป แดงหยุด',
+    name: 'เขียวไป',
     title: 'Go-Nogo',
     domain: 'สมาธิ',
     gameUri: 'go-nogo',

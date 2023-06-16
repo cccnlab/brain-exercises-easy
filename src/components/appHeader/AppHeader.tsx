@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 let defaultHeaderText = 'ยังจำ (Youngjum)';
 let SSHeaderText = 'จำจด กดตาม';
 let CJSHeaderText = 'หากันจนเจอ';
-let GNGHeaderText = 'เขียวไป แดงหยุด';
+let GNGHeaderText = 'เขียวไป';
 
 function AppHeader() {
   const [headerText, setHeaderText] = useState('');

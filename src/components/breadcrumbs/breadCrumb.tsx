@@ -17,7 +17,7 @@ export default function BreadCrumb() {
   
   let SSHeaderText = 'จำจด กดตาม';
   let CJSHeaderText = 'หากันจนเจอ';
-  let GNGHeaderText = 'เขียวไป แดงหยุด';
+  let GNGHeaderText = 'เขียวไป';
   let pages = [
     { name: headerText, href: gameButtonLink, current: false },
   ]
