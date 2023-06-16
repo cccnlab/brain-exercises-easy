@@ -15,6 +15,8 @@ import ParticipantForm from './pages/participantForm/participantForm';
 import { getDataFromLocalStorage } from './uitls/offline';
 
 function App() {
+  const [userId, setUserId] = useState("XXXX");
+  const [userPhone, setUserPhone] = useState("XXXX");
   useEffect(() => {
     const disablePinchZoom = (e) => {
       if (e.touches.length > 1) {
@@ -54,8 +56,6 @@ function App() {
     document.documentElement.style.setProperty('--this-sum', calSum + 'px');
     document.documentElement.style.setProperty('--vh', vh + 'px');
   }
-  const [userId, setUserId] = useState("XXXX");
-  const [userPhone, setUserPhone] = useState("XXXX");
   return (
     <>
       <Router>
