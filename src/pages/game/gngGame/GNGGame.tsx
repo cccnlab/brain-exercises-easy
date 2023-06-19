@@ -427,8 +427,10 @@ function GNGGame(props) {
 
     function postEntry(cueDataResult, userInteractionDataResult, gameLogicSchemeResult, scoringDataResult, metricDataResult) {
         postEntryResult = {
+            "date" : `${thisTime().toString()}`,
             "userId" : props.userId,
             "userPhone" : props.userPhone,
+            "userSession" : props.userSession,
             "data" : {
                 "rawData" : {
                     "cueData" : cueDataResult,
@@ -575,7 +577,7 @@ function GNGGame(props) {
             .catch(function (error) {
                 console.log('error')
             });
-        saveJSONDataToClientDevice(postEntryResult, `GNG_${props.userPhone}_${thisTime().toString()}`);
+            saveJSONDataToClientDevice(postEntryResult, `Subject${props.userId}_gonogo_easy_session${props.userSession}_${thisTime().toString()}`);
     }
 
     function touchStart() {

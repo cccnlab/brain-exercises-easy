@@ -83,6 +83,16 @@ let sumRt = 0;
 let allRt: number[] = [];
 let sumHitRt;
 let hitRt: number[] = [];
+let hit2SetSizeRt: number[] = [];
+let hit6SetSizeRt: number[] = [];
+let hit12SetSizeRt: number[] = [];
+let hit24SetSizeRt: number[] = [];
+let hit44SetSizeRt: number[] = [];
+let correctRejection2SetSizeRt: number[] = [];
+let correctRejection6SetSizeRt: number[] = [];
+let correctRejection12SetSizeRt: number[] = [];
+let correctRejection24SetSizeRt: number[] = [];
+let correctRejection44SetSizeRt: number[] = [];
 let latestHitRtIndex = 0;
 let correctButLateCount = 0;
 let lateMultiplier = 10000;
@@ -94,6 +104,26 @@ let scoresMultiplier = 10;
 let comboCount: number[] = [];
 let rtBound = 10000;
 let avgHitRt;
+let avgHit2SetSizeRt;
+let avgHit6SetSizeRt;
+let avgHit12SetSizeRt;
+let avgHit24SetSizeRt;
+let avgHit44SetSizeRt;
+let avgCorrectRejection2SetSizeRt;
+let avgCorrectRejection6SetSizeRt;
+let avgCorrectRejection12SetSizeRt;
+let avgCorrectRejection24SetSizeRt;
+let avgCorrectRejection44SetSizeRt;
+let hitAccuracy2SetSize;
+let hitAccuracy6SetSize;
+let hitAccuracy12SetSize;
+let hitAccuracy24SetSize;
+let hitAccuracy44SetSize;
+let correctRejectionAccuracy2SetSize;
+let correctRejectionAccuracy6SetSize;
+let correctRejectionAccuracy12SetSize;
+let correctRejectionAccuracy24SetSize;
+let correctRejectionAccuracy44SetSize;
 let swiftness: string = '';
 let total: number = 0;
 let score: number;
@@ -550,6 +580,37 @@ function CJSGame(props): any {
                 checkAns.push(thatRight);
                 correctButLateCount++;
             }
+
+            // check if target appear or disappear
+            if (allSetsizeAndTarget[currTrial][1] === 0){
+                // disappear
+                // check setsize that correct rejection
+                if (allSetsizeAndTarget[currTrial][0] === 2){
+                    correctRejection2SetSizeRt.push(rt);
+                } else if (allSetsizeAndTarget[currTrial][0] === 6) {
+                    correctRejection6SetSizeRt.push(rt);
+                } else if (allSetsizeAndTarget[currTrial][0] === 12) {
+                    correctRejection12SetSizeRt.push(rt);
+                } else if (allSetsizeAndTarget[currTrial][0] === 24) {
+                    correctRejection24SetSizeRt.push(rt);
+                } else if (allSetsizeAndTarget[currTrial][0] === 44) {
+                    correctRejection44SetSizeRt.push(rt);
+                }
+            } else {
+                // appear
+                // check setsize that hit
+                if (allSetsizeAndTarget[currTrial][0] === 2){
+                    hit2SetSizeRt.push(rt);
+                } else if (allSetsizeAndTarget[currTrial][0] === 6) {
+                    hit6SetSizeRt.push(rt);
+                } else if (allSetsizeAndTarget[currTrial][0] === 12) {
+                    hit12SetSizeRt.push(rt);
+                } else if (allSetsizeAndTarget[currTrial][0] === 24) {
+                    hit24SetSizeRt.push(rt);
+                } else if (allSetsizeAndTarget[currTrial][0] === 44) {
+                    hit44SetSizeRt.push(rt);
+                }
+            }
         } else {
             // losingSound();
             thatRight = 'wrong';
@@ -590,6 +651,7 @@ function CJSGame(props): any {
         }
         currTrial = currTrial + 1;
         if (currTrial >= trialNumber) {
+            summarySetSize();
             summaryScore();
             Done();
         } else {
@@ -634,6 +696,149 @@ function CJSGame(props): any {
         )
     }
 
+    function summarySetSize() {
+        let sumHit2SetSizeRt;
+        let sumHit6SetSizeRt;
+        let sumHit12SetSizeRt;
+        let sumHit24SetSizeRt;
+        let sumHit44SetSizeRt;
+        let sumCorrectRejection2SetSizeRt;
+        let sumCorrectRejection6SetSizeRt;
+        let sumCorrectRejection12SetSizeRt;
+        let sumCorrectRejection24SetSizeRt;
+        let sumCorrectRejection44SetSizeRt;
+        let featureOrConjunctionCondition = 2; // feature or conjunction
+        let appearOrDisappearCondition = 2; // appear or disappear
+        let setSizeCondition = 5; // [2, 6, 12, 24, 44] setsize
+        let trialNumberPerCondition = allSetsizeAndTarget.length / (featureOrConjunctionCondition * appearOrDisappearCondition * setSizeCondition);
+
+        // feature section
+        // 2 setsize section
+        hitAccuracy2SetSize = hit2SetSizeRt.length / trialNumberPerCondition * 100;
+        if (hit2SetSizeRt.length !== 0){
+            sumHit2SetSizeRt = hit2SetSizeRt.reduce((sum, score) => {
+                return sum + score;
+            });
+        } else {
+            hit2SetSizeRt.push(0);
+            sumHit2SetSizeRt = hit2SetSizeRt;
+        }
+
+        avgHit2SetSizeRt = sumHit2SetSizeRt / 1000 / hit2SetSizeRt.length;
+
+        correctRejectionAccuracy2SetSize = correctRejection2SetSizeRt.length / trialNumberPerCondition * 100;
+        if (correctRejection2SetSizeRt.length !== 0){
+            sumCorrectRejection2SetSizeRt = correctRejection2SetSizeRt.reduce((sum, score) => {
+                return sum + score;
+            });
+        } else {
+            correctRejection2SetSizeRt.push(0);
+            sumCorrectRejection2SetSizeRt = correctRejection2SetSizeRt;
+        }
+
+        avgCorrectRejection2SetSizeRt = sumCorrectRejection2SetSizeRt / 1000 / correctRejection2SetSizeRt.length;
+
+        // 6 setsize section
+        hitAccuracy6SetSize = hit6SetSizeRt.length / trialNumberPerCondition * 100;
+        if (hit6SetSizeRt.length !== 0){
+            sumHit6SetSizeRt = hit6SetSizeRt.reduce((sum, score) => {
+                return sum + score;
+            });
+        } else {
+            hit6SetSizeRt.push(0);
+            sumHit6SetSizeRt = hit6SetSizeRt;
+        }
+
+        avgHit6SetSizeRt = sumHit6SetSizeRt / 1000 / hit6SetSizeRt.length;
+
+        correctRejectionAccuracy6SetSize = correctRejection6SetSizeRt.length / trialNumberPerCondition * 100;
+        if (correctRejection6SetSizeRt.length !== 0){
+            sumCorrectRejection6SetSizeRt = correctRejection6SetSizeRt.reduce((sum, score) => {
+                return sum + score;
+            });
+        } else {
+            correctRejection6SetSizeRt.push(0);
+            sumCorrectRejection6SetSizeRt = correctRejection6SetSizeRt;
+        }
+
+        avgCorrectRejection6SetSizeRt = sumCorrectRejection6SetSizeRt / 1000 / correctRejection6SetSizeRt.length;
+
+        // 12 setsize section
+        hitAccuracy12SetSize = hit12SetSizeRt.length / trialNumberPerCondition * 100;
+        if (hit12SetSizeRt.length !== 0){
+            sumHit12SetSizeRt = hit12SetSizeRt.reduce((sum, score) => {
+                return sum + score;
+            });
+        } else {
+            hit12SetSizeRt.push(0);
+            sumHit12SetSizeRt = hit2SetSizeRt;
+        }
+
+        avgHit12SetSizeRt = sumHit12SetSizeRt / 1000 / hit12SetSizeRt.length;
+
+        correctRejectionAccuracy12SetSize = correctRejection12SetSizeRt.length / trialNumberPerCondition * 100;
+        if (correctRejection12SetSizeRt.length !== 0){
+            sumCorrectRejection12SetSizeRt = correctRejection12SetSizeRt.reduce((sum, score) => {
+                return sum + score;
+            });
+        } else {
+            correctRejection12SetSizeRt.push(0);
+            sumCorrectRejection12SetSizeRt = correctRejection12SetSizeRt;
+        }
+
+        avgCorrectRejection12SetSizeRt = sumCorrectRejection12SetSizeRt / 1000 / correctRejection12SetSizeRt.length;
+
+        // 24 setsize section
+        hitAccuracy24SetSize = hit24SetSizeRt.length / trialNumberPerCondition * 100;
+        if (hit24SetSizeRt.length !== 0){
+            sumHit24SetSizeRt = hit24SetSizeRt.reduce((sum, score) => {
+                return sum + score;
+            });
+        } else {
+            hit24SetSizeRt.push(0);
+            sumHit24SetSizeRt = hit24SetSizeRt;
+        }
+
+        avgHit24SetSizeRt = sumHit24SetSizeRt / 1000 / hit24SetSizeRt.length;
+
+        correctRejectionAccuracy24SetSize = correctRejection24SetSizeRt.length / trialNumberPerCondition * 100;
+        if (correctRejection24SetSizeRt.length !== 0){
+            sumCorrectRejection24SetSizeRt = correctRejection24SetSizeRt.reduce((sum, score) => {
+                return sum + score;
+            });
+        } else {
+            correctRejection24SetSizeRt.push(0);
+            sumCorrectRejection24SetSizeRt = correctRejection24SetSizeRt;
+        }
+
+        avgCorrectRejection24SetSizeRt = sumCorrectRejection24SetSizeRt / 1000 / correctRejection24SetSizeRt.length;
+
+        // 44 setsize section
+        hitAccuracy44SetSize = hit44SetSizeRt.length / trialNumberPerCondition * 100;
+        if (hit44SetSizeRt.length !== 0){
+            sumHit44SetSizeRt = hit44SetSizeRt.reduce((sum, score) => {
+                return sum + score;
+            });
+        } else {
+            hit44SetSizeRt.push(0);
+            sumHit44SetSizeRt = hit44SetSizeRt;
+        }
+
+        avgHit44SetSizeRt = sumHit44SetSizeRt / 1000 / hit44SetSizeRt.length;
+
+        correctRejectionAccuracy44SetSize = correctRejection44SetSizeRt.length / trialNumberPerCondition * 100;
+        if (correctRejection44SetSizeRt.length !== 0){
+            sumCorrectRejection44SetSizeRt = correctRejection44SetSizeRt.reduce((sum, score) => {
+                return sum + score;
+            });
+        } else {
+            correctRejection44SetSizeRt.push(0);
+            sumCorrectRejection44SetSizeRt = correctRejection44SetSizeRt;
+        }
+
+        avgCorrectRejection44SetSizeRt = sumCorrectRejection44SetSizeRt / 1000 / correctRejection44SetSizeRt.length;
+    }
+
     function summaryScore() {
         for (let correctIndex = latestHitRtIndex; correctIndex < comboCount.length; correctIndex++) {
             latestHitRtIndex = correctIndex;
@@ -663,9 +868,14 @@ function CJSGame(props): any {
             return sum + scores;
         });
 
-        sumHitRt = hitRt.reduce((sum, score) => {
-            return sum + score;
-        });
+        if (hitRt.length !== 0){
+            sumHitRt = hitRt.reduce((sum, score) => {
+                return sum + score;
+            });
+        } else {
+            hitRt.push(0);
+            sumHitRt = hitRt;
+        }
 
         avgHitRt = sumHitRt / 1000 / hitRt.length;
         if (avgHitRt < 1) {
@@ -697,7 +907,7 @@ function CJSGame(props): any {
             .catch(function (error) {
                 console.log('error')
             });
-        saveJSONDataToClientDevice(postEntryResult, `CJS_${props.userPhone}_${thisTime().toString()}`);
+            saveJSONDataToClientDevice(postEntryResult, `Subject${props.userId}_visualsearch_easy_session${props.userSession}_${thisTime().toString()}`);
     }
 
     function scoringData(rtBound, incorrectMultiplier, lateMultiplier, scoresMultiplier, trialNumber, total){
@@ -759,7 +969,27 @@ function CJSGame(props): any {
                'lowestTimeLimit', 
                'fastestHitReactionTime', 
                'averageHitReactionTime', 
-               'swiftness'];
+               'swiftness',
+               'hitAccuracy2SS',
+               'avgHitReactionTime2SS',
+               'hitAccuracy6SS',
+               'avgHitReactionTime6SS',
+               'hitAccuracy12SS',
+               'avgHitReactionTime12SS',
+               'hitAccuracy24SS',
+               'avgHitReactionTime24SS',
+               'hitAccuracy44SS',
+               'avgHitReactionTime44SS',
+               'correctRejectionAccuracy2SS',
+               'avgCorrectRejectionTime2SS',
+               'correctRejectionAccuracy6SS',
+               'avgCorrectRejectionTime6SS',
+               'correctRejectionAccuracy12SS',
+               'avgCorrectRejectionTime12SS',
+               'correctRejectionAccuracy24SS',
+               'avgCorrectRejectionTime24SS',
+               'correctRejectionAccuracy44SS',
+               'avgCorrectRejectionTime44SS',];
         let metricValue 
             = [trialNumber - incorrectCount, 
                incorrectCount, 
@@ -768,8 +998,28 @@ function CJSGame(props): any {
                timeLimitRecord[1], 
                hitRt[0], 
                avgHitRt, 
-               swiftness];
-        let metricUnit = [null, null, null, null, 'ms', 'ms', 's', null];
+               swiftness,
+               hitAccuracy2SetSize,
+               avgHit2SetSizeRt,
+               hitAccuracy6SetSize,
+               avgHit6SetSizeRt,
+               hitAccuracy12SetSize,
+               avgHit12SetSizeRt,
+               hitAccuracy24SetSize,
+               avgHit24SetSizeRt,
+               hitAccuracy44SetSize,
+               avgHit44SetSizeRt,
+               correctRejectionAccuracy2SetSize,
+               avgCorrectRejection2SetSizeRt,
+               correctRejectionAccuracy6SetSize,
+               avgCorrectRejection6SetSizeRt,
+               correctRejectionAccuracy12SetSize,
+               avgCorrectRejection12SetSizeRt,
+               correctRejectionAccuracy24SetSize,
+               avgCorrectRejection24SetSizeRt,
+               correctRejectionAccuracy44SetSize,
+               avgCorrectRejection44SetSizeRt,];
+        let metricUnit = [null, null, null, null, 'ms', 'ms', 's', null, '%', 's', '%', 's', '%', 's', '%', 's', '%', 's', '%', 's', '%', 's', '%', 's', '%', 's', '%', 's'];
         let metricDescription 
             = ['Total number of correct trials', 
                'Total number of incorrect trials', 
@@ -778,7 +1028,27 @@ function CJSGame(props): any {
                'The lowest time limit for trials that user reached', 
                'The fastest hit reaction time that user reached', 
                'The average of all hit reaction time', 
-               'The quality of all hit reaction time'];
+               'The quality of all hit reaction time',
+               'The accuracy of 2 setsize hit',
+               'The average reaction time of all 2 setsize hit',
+               'The accuracy of 6 setsize hit',
+               'The average reaction time of all 6 setsize hit',
+               'The accuracy of 12 setsize hit',
+               'The average reaction time of all 12 setsize hit',
+               'The accuracy of 24 setsize hit',
+               'The average reaction time of all 24 setsize hit',
+               'The accuracy of 44 setsize hit',
+               'The average reaction time of all 44 setsize hit',
+               'The accuracy of 2 setsize correct rejection',
+               'The average reaction time of all 2 setsize correct rejection',
+               'The accuracy of 6 setsize correct rejection',
+               'The average reaction time of all 6 setsize correct rejection',
+               'The accuracy of 12 setsize correct rejection',
+               'The average reaction time of all 12 setsize correct rejection',
+               'The accuracy of 24 setsize correct rejection',
+               'The average reaction time of all 24 setsize correct rejection',
+               'The accuracy of 44 setsize correct rejection',
+               'The average reaction time of all 44 setsize correct rejection',];
         for (let i = 0; i < metricName.length; i++){
             let obj_to_append
             obj_to_append = {
@@ -794,8 +1064,10 @@ function CJSGame(props): any {
 
     function postEntry(targetDataResult, trialDataResult, gameLogicSchemeResult, scoringDataResult, metricDataResult){
         postEntryResult = {
+            "date" : `${thisTime().toString()}`,
             "userId" : props.userId,
             "userPhone" : props.userPhone,
+            "userSession" : props.userSession,
             "data" : {
                 "rawData" : {
                     "target" : targetDataResult,
