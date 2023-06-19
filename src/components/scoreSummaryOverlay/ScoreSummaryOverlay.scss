@@ -102,7 +102,7 @@
     width: calc(var(--this-sum) / 4.09);
     height: calc(var(--this-sum) / 25.70);
     background: #ffffff;
-    border: calc(var(--this-sum) / 1234) solid rgba(0, 0, 0, 0.7);
+    // border: calc(var(--this-sum) / 1234) solid rgba(0, 0, 0, 0.7);
     border-radius: calc(var(--this-sum) / 30.85);
     font-style: normal;
     font-weight: 400;
@@ -110,9 +110,11 @@
     line-height: calc(var(--this-sum) / 36.29);
     letter-spacing: calc(var(--this-sum) / 6855.56);
     color: #393939;
+    pointer-events: none;
 }
 
 .summaryBtnHome {
+    width: calc(var(--this-sum) / 4.09);
     height: calc(var(--this-sum) / 18.15);
     background: #297AF4;
     border-radius: calc(var(--this-sum) / 30.85);

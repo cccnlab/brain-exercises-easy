@@ -21,7 +21,7 @@ function ScoreSummaryOverlay(props) {
               <p className='highestScore'>ความเร็วเฉลี่ย: {(props.avgHitRt).toFixed(2)} วินาที</p>
           </div>
           <div className="btnContainerSummary">
-              <button className='summaryBtnPlayAgain' onClick={props.refreshPage}>{`เล่นอีกครั้ง`}</button>
+              <button className='summaryBtnPlayAgain' onClick={props.refreshPage}>{}</button>
               <button className='summaryBtnHome' onClick={props.backToLandingPage}>{`กลับหน้าหลัก`}</button>
           </div>
       </div>
