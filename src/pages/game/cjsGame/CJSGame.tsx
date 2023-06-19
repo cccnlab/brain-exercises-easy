@@ -707,10 +707,9 @@ function CJSGame(props): any {
         let sumCorrectRejection12SetSizeRt;
         let sumCorrectRejection24SetSizeRt;
         let sumCorrectRejection44SetSizeRt;
-        let featureOrConjunctionCondition = 2; // feature or conjunction
         let appearOrDisappearCondition = 2; // appear or disappear
         let setSizeCondition = 5; // [2, 6, 12, 24, 44] setsize
-        let trialNumberPerCondition = allSetsizeAndTarget.length / (featureOrConjunctionCondition * appearOrDisappearCondition * setSizeCondition);
+        let trialNumberPerCondition = allSetsizeAndTarget.length / (appearOrDisappearCondition * setSizeCondition);
 
         // feature section
         // 2 setsize section
