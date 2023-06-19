@@ -63,6 +63,9 @@ let answerTimePerTrial: any[] = [];
 let hitRt: number[] = [];
 let sumHitRt;
 let avgHitRt;
+let hit2SpanSizeRt: number[] = [];
+let avgHit2SpanSizeRt;
+let hitAccuracy2SpanSize;
 let latestIndex: number = 0;
 let scorePerTrial: number[] = [];
 let spanMultiplier: number = 1000;
@@ -210,6 +213,7 @@ function SSGame(props) {
 
           if (equalCheck(currAns, currSeq)) {
               $('#goSignal').html("ถูก");
+              checkHitSpanSize();
               setProgressValue(progressValue + 1);
             //   combo2Sound();
               currSeq = [];
@@ -277,16 +281,43 @@ function SSGame(props) {
           }
           
           allReactionTime.push(reactionTime.toString());
-          let lastReaction = reactionTime[reactionTime.length-1];
+          let lastReaction = reactionTime[reactionTime.length - 1];
           allReactionTrial.push(lastReaction);
           reactionTime = [];
       }
 
       if (currTrial === trialNumber){
+          summarySpanSize();
           summaryScore();
           runIsOver();
       }
   };
+
+  function checkHitSpanSize() {
+    let reactionTimePerClick: number[] = [];
+    // push in 1st index to the reactionTimePerClick array
+    reactionTimePerClick.push(reactionTime[0]);
+    for (let clickIndex = 0; clickIndex < reactionTime.length; clickIndex++){
+        // currClick = the present time in present index (where we started)
+        let currClick = reactionTime[clickIndex];
+        // nextClick = the next time in next index (the 2nd 3rd and so on clicked)
+        let nextClick;
+        if (clickIndex < reactionTime.length - 1){
+            nextClick = reactionTime[clickIndex + 1];
+        }
+
+        // this condition prevent NaN because there is nothing beyond the last index so it 'undefined'
+        if (nextClick !== undefined){ // push every time that nextClick !== undefined
+            reactionTimePerClick.push(nextClick - currClick);
+        }
+    }
+    let avgTrialReactionTime = reactionTimePerClick.reduce((sum, time) => {return sum + time}) / reactionTimePerClick.length;
+    hitRt.push(avgTrialReactionTime);
+        // check span size 
+        if (spanSizeAndDirection[currTrial] === 2){
+            hit2SpanSizeRt.push(avgTrialReactionTime);
+        } 
+    }
 
   function initiateData() {
       allSpan = []; 
@@ -606,7 +637,7 @@ function SSGame(props) {
             .catch(function (error) {
                 console.log('error')
             });
-      saveJSONDataToClientDevice(postEntryResult, `SS_${props.userPhone}_${thisTime().toString()}`);
+            saveJSONDataToClientDevice(postEntryResult, `Subject${props.userId}_spatialspan_easy_session${props.userSession}_${thisTime().toString()}`);
   }
 
   function cueData(currSeq: string | any[], cueColor: string, cueBorderColor: string, cueStartTime: any[], cueEndTime: any[]){
@@ -712,18 +743,27 @@ function SSGame(props) {
           = ['correctCount', 
               'incorrectCount', 
               'struggleTimeCount', 
-              'highestSpan'];
+              'highestSpan',
+              'averageHitReactionTime',
+              'hitAccuracy2SS',
+              'avgHitReactionTime2SS'];
       let metricValue 
           = [summaryCorrect, 
               trialNumber - summaryCorrect, 
               null, 
-              spanInCorrectAns[spanInCorrectAns.length - 1]];
-      let metricUnit = [null, null, null, null, null];
+              spanInCorrectAns[spanInCorrectAns.length - 1],
+              avgHitRt,
+              hitAccuracy2SpanSize,
+              avgHit2SpanSizeRt];
+      let metricUnit = [null, null, null, null, 's', '%', 's'];
       let metricDescription 
           = ['Total number of correct trials', 
               'Total number of incorrect trials', 
               'Total number of entered struggle loop', 
-              'The highest span that user reached'];
+              'The highest span that user reached',
+              'The average of all hit reaction time',
+              'The accuracy of 2 span size hit',
+              'The average reaction time of all 2 span size hit',];
       for (let i = 0; i < metricName.length; i++){
           let obj_to_append
           obj_to_append = {
@@ -739,8 +779,10 @@ function SSGame(props) {
 
   function postEntry(trialDataResult: any[], gameLogicSchemeResult: { game: string; schemeName: string; version: number; variant: string; parameters: { trialNumber: { value: any; unit: null; description: string }; flashDuration: { value: any; unit: string; description: string }; flashInterval: { value: any; unit: string; description: string }; initialSpan: { value: any; unit: null; description: string }; probeNumber: { value: any; unit: null; description: string }; probeAngularPosition: { value: any; unit: string; description: string }; rampingCorrectCount: { value: any; unit: null; description: string }; maxFailStreakCount: { value: any; unit: null; description: string }; maxFailCount: { value: any; unit: null; description: string } }; description: string }, scoringDataResult: any[], metricDataResult: any[]){
       postEntryResult = {
+        "date" : `${thisTime().toString()}`,
         "userId" : props.userId,
         "userPhone" : props.userPhone,
+        "userSession" : props.userSession,
         "data" : {
             "rawData" : {
                 "trialData" : trialDataResult,
@@ -754,6 +796,27 @@ function SSGame(props) {
       return postEntryResult;
   }
 
+  function summarySpanSize() {
+    let sumHit2SpanSizeRt;
+    let spanSizeCondition = 1; // [2] span size
+    let trialNumberPerCondition = spanSizeAndDirection.length / spanSizeCondition;
+
+    // forward section
+    // 2 span size section
+    hitAccuracy2SpanSize = hit2SpanSizeRt.length / trialNumberPerCondition * 100;
+    if (hit2SpanSizeRt.length !== 0){
+        sumHit2SpanSizeRt = hit2SpanSizeRt.reduce((sum, time) => {
+          return sum + time;
+        });
+    } else {
+        hit2SpanSizeRt.push(0);
+        sumHit2SpanSizeRt = hit2SpanSizeRt;
+    }
+
+    avgHit2SpanSizeRt = sumHit2SpanSizeRt / 1000 / hit2SpanSizeRt.length;
+  }
+
+
   function summaryScore() {
       for (let correctIndex = latestIndex; correctIndex < checkAns.length; correctIndex++) {
           latestIndex = correctIndex;
@@ -762,7 +825,6 @@ function SSGame(props) {
               scorePerTrial.push(allSpan[correctIndex] * spanMultiplier);
               summaryCorrect++;
               spanInCorrectAns.push(allSpan[correctIndex]);
-              hitRt.push(allReactionTrial[correctIndex]);
           } 
       }
       
@@ -772,6 +834,7 @@ function SSGame(props) {
           });
       } else {
         hitRt.push(0);
+        sumHitRt = hitRt;
       }
 
       avgHitRt = sumHitRt / 1000 / hitRt.length;
@@ -785,7 +848,7 @@ function SSGame(props) {
       }
   
       return sumScores;
-  }
+    }
   
   function timeStart() : number{
       let startTime = new Date();
