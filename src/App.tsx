@@ -17,6 +17,8 @@ import { getDataFromLocalStorage } from './uitls/offline';
 function App() {
   const [userId, setUserId] = useState("XXXX");
   const [userPhone, setUserPhone] = useState("XXXX");
+  const [userSession, setUserSession] = useState("XXXX");
+
   useEffect(() => {
     const disablePinchZoom = (e) => {
       if (e.touches.length > 1) {
@@ -30,12 +32,14 @@ function App() {
 
     let id = getDataFromLocalStorage('userId');
     let phone = getDataFromLocalStorage('userPhone');
-    if ((id !== null && phone !== null) && (id !=="XXXX" && phone !== "XXXX")){
+    let session = getDataFromLocalStorage('userSession');
+    if ((id !== null && phone !== null && session !== null) && (id !=="XXXX" && phone !== "XXXX" && session !== "XXXX")){
       setUserId(id);
       setUserPhone(phone);
+      setUserSession(session);
       // window.location.replace(window.location.origin + "#/landing");
     } else {
-      if (window.location.href === "https://cccnlab.co/brain-exercises-easy/"){ 
+      if (window.location.href === "https://cccnlab.co/brain-exercises-easy/"){
       } else {
         window.location.replace("https://cccnlab.co/brain-exercises-easy/");
       }
@@ -60,17 +64,17 @@ function App() {
     <>
       <Router>
           <Routes>
-            <Route path="/" element={< ParticipantForm setUserId={setUserId} setUserPhone={setUserPhone}/>}></Route>
+            <Route path="/" element={< ParticipantForm setUserId={setUserId} setUserPhone={setUserPhone} setUserSession={setUserSession}/>}></Route>
             <Route path="/landing" element={< LandingPage />}></Route>
             <Route path="/spatial-span" element={<SSLanding />}></Route>
             <Route path="/spatial-span/instruction" element={<SSInstruction userId={userId}/>}></Route>
-            <Route path="/spatial-span/trial" element={<SSGame userId={userId} userPhone={userPhone}/>}></Route>
+            <Route path="/spatial-span/trial" element={<SSGame userId={userId} userPhone={userPhone} userSession={userSession}/>}></Route>
             <Route path="/conjunction-search" element={<CJSLanding />}></Route>
             <Route path="/conjunction-search/instruction" element={<CJSInstruction />}></Route>
-            <Route path="/conjunction-search/trial" element={<CJSGame userId={userId} userPhone={userPhone}/>}></Route>
+            <Route path="/conjunction-search/trial" element={<CJSGame userId={userId} userPhone={userPhone} userSession={userSession}/>}></Route>
             <Route path="/go-nogo" element={<GNGLanding />}></Route>
             <Route path="/go-nogo/instruction" element={<GNGInstruction />}></Route>
-            <Route path="/go-nogo/trial" element={<GNGGame userId={userId} userPhone={userPhone}/>}></Route>
+            <Route path="/go-nogo/trial" element={<GNGGame userId={userId} userPhone={userPhone} userSession={userSession}/>}></Route>
           </Routes>
           <LoadingSpinner />
       </Router>
