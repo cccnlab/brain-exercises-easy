@@ -34,7 +34,7 @@ export default function ParticipantForm(props:{
             <form className="space-y-6" >
               <div>
                 <label htmlFor="userId" className="block text-sm font-medium leading-6 text-gray-900">
-                  หมายเลขผู้เข้าร่วมงานวิจัย (subject id)
+                  หมายเลขผู้เข้าร่วมงานวิจัย (subject id; กรุณากรอกตัวเลขสี่หลัก เช่น 0001)
                 </label>
                 <div className="mt-2">
                   <input onChange={
@@ -70,7 +70,7 @@ export default function ParticipantForm(props:{
 
               <div>
                 <label htmlFor="session" className="block text-sm font-medium leading-6 text-gray-900">
-                  ทำการทดสอบครั้งที่ (session)
+                  ทำการทดสอบครั้งที่ (session; กรุณากรอกตัวเลขสี่หลัก เช่น 0001)
                 </label>
                 <div className="mt-2">
                   <input onChange={
