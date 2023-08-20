@@ -400,7 +400,7 @@ function CJSInstruction(props) {
                                 {tutorialStep === 1 ? <p>สวัสดีครับ วันนี้ผมจะมาสอนวิธี <br></br>เล่นเกม <b>'หากันจนเจอ'</b></p> : null}
                                 {tutorialStep === 2 ? <p>เป้าหมายของเกมนี้คือการหา <br></br><b>รูปทรงที่มีสีตามที่กำหนด</b></p> : null}
                                 {tutorialStep === 3 && searchTarget ? <p>อย่างเช่นให้คุณหา <b>{searchTargetList[searchTarget.shape][searchTarget.col].description}</b></p> : null}
-                                {tutorialStep === 4 ? <p>หากมีให้กดปุ่ม “<b style={{ color : `#26A445`}}>มี</b>”  <br></br>หากไม่มีกดปุ่ม “<b style={{ color : `#E52D27`}}>ไม่มี</b>” <br></br> <i style={{ color : `#808080`}}>กดปุ่ม "ถััดไป" ด้่่านล่างเพื่อไปต่อ </p> : null}
+                                {tutorialStep === 4 ? <p>หากมีให้กดปุ่ม “<b style={{ color : `#26A445`}}>มี</b>”  <br></br>หากไม่มีกดปุ่ม “<b style={{ color : `#E52D27`}}>ไม่มี</b>” <br></br> <style={{ color : `#808080`}}>กดปุ่ม "ถััดไป" ด้่่านล่างเพื่อไปต่อ </p> : null}
                                 {tutorialStep === 5 ? <p>เรามาลองเล่นกันดูครับ </p> : null}
                                 {tutorialStep === 7 && tutorialTest === 'right' ? <p>ถูกต้องครับ! <br></br><br></br>คะแนนเกมนี้ จะขึ้นอยู่กับ <br></br><b>ความถูกต้องและความไว</b></p> : null}
                                 {tutorialStep === 7 && tutorialTest === 'wrong' ? <p>อย่าลืมนะครับ ว่าต้องเป็น  <br></br><b>รูปทรงที่มีสีตามที่กำหนด</b></p> : null}
