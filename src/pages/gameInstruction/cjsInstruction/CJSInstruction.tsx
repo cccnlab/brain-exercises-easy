@@ -351,6 +351,7 @@ function CJSInstruction(props) {
             setTutorialStep(tutorialStep - 1);
             setTutorialTest('');
             setTutorialHide(true);
+            createPseudorandomStimuli(); // prevent run out of stimuli cause by keep playing wrong tutorial
         } else {
             setTutorialStep(tutorialStep + 1);
             if (tutorialStep !== 5 && tutorialStep !== 8 
