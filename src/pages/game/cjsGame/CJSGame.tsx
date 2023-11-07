@@ -899,7 +899,7 @@ function CJSGame(props): any {
         scoringDataResult = scoringData(rtBound, incorrectMultiplier, lateMultiplier, scoresMultiplier, trialNumber, total);
         metricDataResult = metricData(trialNumber, incorrectCount, correctButLateCount, setSizeInCorrectAns, timeLimitRecord, hitRt, avgHitRt, swiftness);
         postEntryResult = postEntry(targetDataResult, trialDataResult, gameLogicSchemeResult, scoringDataResult, metricDataResult);
-        axios.post('https://hwsrv-1063269.hostwindsdns.com/exercise-api-easy/conjunction-search', postEntryResult)
+        axios.post('https://exercise-vercel-svelte-backend.vercel.app/api/easy/conjunction_search', postEntryResult)
             .then(function (postEntryResult) {
                 console.log(postEntryResult)
             })

@@ -630,7 +630,7 @@ function SSGame(props) {
       scoringDataResult = scoringData(trialNumber, spanMultiplier, score);
       metricDataResult = metricData(trialNumber, summaryCorrect, spanInCorrectAns, enterStruggleTimeCount);
       postEntryResult = postEntry(trialDataResult, gameLogicSchemeResult, scoringDataResult, metricDataResult);
-      axios.post('https://hwsrv-1063269.hostwindsdns.com/exercise-api-easy/spatial-span', postEntryResult)
+      axios.post('https://exercise-vercel-svelte-backend.vercel.app/api/easy/spatial_span', postEntryResult)
             .then(function (postEntryResult) {
                 console.log(postEntryResult)
             })
