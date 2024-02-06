@@ -137,6 +137,10 @@ function GNGGame(props) {
         allNone = 0;
         allGo = 0;
         allNoGo = 0;
+        hitCount = 0;
+        missCount = 0;
+        falseAlarmCount = 0;
+        falseHitCount = 0;
     }
 
     function gameLogicScheme(trialNumber, changeRate, noGoRate, onlyGoBlockRatio, goNoGoBlockRatio, flashDuration, baseFlashInterval, jitterBase, jitterAmplitude, timeOffset) {
@@ -628,7 +632,6 @@ function GNGGame(props) {
         </div>
         {isItDone ? 
         <div>
-            {/* {<ScoreSummaryOverlay accuracy={((hitCount + correctRejectionCount) / trialNumber) * 100}  falseHit={(falseHitCount / allNoGo) * 100} easyGNGDone={easyGNGDone} avgHitRt={avgHitRt} refreshPage={refreshPage} backToLandingPage={backToLandingPage}/>} */}
             {<ScoreSummaryOverlay accuracy={(hitCount / allGo) * 100}  falseHit={(falseHitCount / allNoGo) * 100} easyGNGDone={easyGNGDone} avgHitRt={avgHitRt} refreshPage={refreshPage} backToLandingPage={backToLandingPage}/>}
         </div>
         : null}

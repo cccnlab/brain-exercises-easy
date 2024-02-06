@@ -304,6 +304,16 @@ function CJSGame(props): any {
         Ytemps = [];
         Ys = [];
         posId = [];
+        hit2SetSizeRt = [];
+        hit6SetSizeRt = [];
+        hit12SetSizeRt = [];
+        hit24SetSizeRt = [];
+        hit44SetSizeRt = [];
+        correctRejection2SetSizeRt = [];
+        correctRejection6SetSizeRt = [];
+        correctRejection12SetSizeRt = [];
+        correctRejection24SetSizeRt = [];
+        correctRejection44SetSizeRt = [];
     }
 
     function createTargetCanvas() {

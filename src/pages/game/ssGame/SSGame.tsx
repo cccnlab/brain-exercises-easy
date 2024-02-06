@@ -338,6 +338,8 @@ function SSGame(props) {
       scorePerTrial = [];
       summaryCorrect = 0;
       sumScores = 0;
+      currTrial = 0;
+      hit2SpanSizeRt = [];
   }
 
     function gameLogicScheme(trialNumber: number, flashDuration: number, flashInterval: number, initialSpan: number, probeNumber: number, probeAngularPosition: number[], rampingCorrectCount: number, maxFailStreakCount: number, maxFailCount: number) {
